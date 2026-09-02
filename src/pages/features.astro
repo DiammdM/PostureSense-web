@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const features = [
+  ['Real-time posture monitoring', 'Uses your device camera during an active session to observe visible upper-body posture in real time.'],
+  ['Head-down detection', 'Notices when your head moves downward beyond the sensitivity selected for the session.'],
+  ['Forward-lean detection', 'Helps you notice when your upper body moves forward while you are focused at a desk.'],
+  ['Body tilt detection', 'Detects noticeable sideways upper-body tilt while you remain visible in the camera frame.'],
+  ['Custom sensitivity', 'Adjust how much posture change is needed before Posturely considers sending a reminder.'],
+  ['Sound reminders', 'Choose an audible cue that can bring your attention back to your posture without interrupting the whole session.'],
+  ['Vibration reminders', 'Use haptic feedback when you want a more discreet reminder from the device.'],
+  ['Session duration', 'Run posture monitoring for the length of a study, reading, or desk-work session.'],
+  ['Reminder history', 'Review past reminders to better understand when posture changes tend to happen.'],
+  ['Designed for desk use', 'Works best with a stable phone stand and a clear side-front view of your upper body.'],
+  ['On-device processing', 'Processes camera frames locally on your iPhone or iPad for posture detection.'],
+] as const;
+---
+
+<BaseLayout
+  title="Posture Monitoring Features for iPhone | Posturely"
+  description="Explore Posturely features including head-down, forward-lean and body-tilt detection, adjustable sensitivity, reminders, session history, and on-device processing."
+  canonical="/features/"
+>
+  <PageHero
+    eyebrow="Features"
+    title="Posture reminders built around everyday desk use."
+    description="Posturely combines real-time, on-device posture monitoring with adjustable reminders for studying, reading, homework, and focused work."
+  />
+  <section class="feature-section">
+    <div class="container">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Features' }]} />
+      <h2 class="sr-only">Posturely features</h2>
+      <div class="feature-grid">
+        {features.map(([title, description], index) => <FeatureCard number={String(index + 1).padStart(2, '0')} {title} {description} />)}
+      </div>
+      <aside class="accuracy-note surface-card">
+        <p class="eyebrow">Important context</p>
+        <h2>Awareness, not diagnosis.</h2>
+        <p>Posturely identifies visible posture changes to provide reminders. It is not a medical device and does not provide diagnostic accuracy, treatment advice, or clinical measurements.</p>
+      </aside>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .feature-section {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0 0;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .accuracy-note {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1rem;
+    padding: clamp(1.6rem, 4vw, 3rem);
+  }
+
+  .accuracy-note .eyebrow {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.05em;
+    font-weight: 520;
+  }
+
+  .accuracy-note p:last-child {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  @media (max-width: 900px) {
+    .feature-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 620px) {
+    .feature-grid,
+    .accuracy-note {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

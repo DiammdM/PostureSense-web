@@ -1,0 +1,53 @@
+---
+interface Props {
+  number?: string;
+  title: string;
+  description: string;
+}
+
+const { number, title, description } = Astro.props;
+---
+
+<article class="feature-card surface-card">
+  {number && <span class="number">{number}</span>}
+  <h3>{title}</h3>
+  <p>{description}</p>
+</article>
+
+<style>
+  .feature-card {
+    min-height: 220px;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    transition: transform 160ms ease, border-color 160ms ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(17, 19, 17, 0.3);
+  }
+
+  .number {
+    display: inline-grid;
+    width: 34px;
+    height: 34px;
+    place-content: center;
+    border: 1px solid var(--border-strong);
+    border-radius: 9px;
+    background: var(--accent);
+    color: var(--text);
+    font-size: 0.72rem;
+    font-weight: 780;
+  }
+
+  h3 {
+    margin: 3.5rem 0 0;
+    font-size: 1.2rem;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    margin: 0.65rem 0 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+  }
+</style>

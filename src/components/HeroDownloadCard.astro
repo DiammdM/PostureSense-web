@@ -1,0 +1,108 @@
+---
+import AppStoreButton from './AppStoreButton.astro';
+import { appStore } from '../config/site';
+import { getLocaleFromPath } from '../i18n';
+
+const locale = getLocaleFromPath(Astro.url.pathname);
+const title = {
+  en: 'Scan to download Posturely',
+  zh: '扫码下载 Posturely',
+  ja: 'QRコードで Posturely をダウンロード',
+}[locale];
+const qrLabel = {
+  en: 'Open Posturely in the App Store',
+  zh: '在 App Store 中打开 Posturely',
+  ja: 'App Store で Posturely を開く',
+}[locale];
+---
+
+<div class="desktop-download">
+  <div class="qr-download-card">
+    <a
+      class="qr-code-link"
+      href={appStore.url}
+      rel="noopener noreferrer"
+      aria-label={qrLabel}
+    >
+      <img
+        src={appStore.qrImage}
+        width="496"
+        height="496"
+        alt=""
+        loading="eager"
+        decoding="async"
+      />
+    </a>
+    <div class="qr-download-content">
+      <p>{title}</p>
+    </div>
+  </div>
+</div>
+<div class="mobile-download">
+  <AppStoreButton />
+</div>
+
+<style>
+  .desktop-download {
+    flex-shrink: 0;
+  }
+
+  .mobile-download {
+    display: none;
+  }
+
+  .qr-download-card {
+    display: grid;
+    flex-shrink: 0;
+    width: min(100%, 330px);
+    grid-template-columns: 126px minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.85rem;
+    box-shadow: 0 14px 34px rgba(17, 19, 17, 0.08);
+  }
+
+  .qr-code-link {
+    display: block;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .qr-code-link:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 3px;
+  }
+
+  .qr-code-link img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .qr-download-content {
+    display: grid;
+    align-content: center;
+  }
+
+  .qr-download-content p {
+    margin: 0;
+    color: var(--text);
+    font-size: 0.94rem;
+    font-weight: 760;
+    line-height: 1.35;
+  }
+
+  @media (max-width: 720px) {
+    .desktop-download {
+      display: none;
+    }
+
+    .mobile-download {
+      display: block;
+    }
+  }
+</style>

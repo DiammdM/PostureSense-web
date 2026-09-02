@@ -1,0 +1,32 @@
+---
+import { getLocaleFromPath } from '../i18n';
+
+const locale = getLocaleFromPath(Astro.url.pathname);
+const copy = {
+  en: { aria: 'Posturely posture monitoring app shown on an iPhone desk stand', awareness: 'Posture awareness', processing: 'Processed on device' },
+  zh: { aria: 'Posturely 坐姿监督应用在 iPhone 桌面支架上的产品效果图', awareness: '专注桌面时间的坐姿觉察', processing: '所有画面仅在设备本地处理' },
+  ja: { aria: 'iPhone デスクスタンドで動作する Posturely 姿勢モニタリングの製品イメージ', awareness: 'デスク時間の姿勢意識', processing: 'デバイス上で処理' },
+}[locale];
+---
+
+<figure class="product-preview" aria-label={copy.aria}>
+  <img src="/images/posturely-product-hero-real-app-v2.jpg" alt={copy.aria} width="1536" height="1024" loading="eager" fetchpriority="high" />
+  <figcaption>
+    <span class="annotation awareness"><i aria-hidden="true"></i>{copy.awareness}</span>
+    <span class="annotation processing"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>{copy.processing}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .product-preview { position: relative; min-height: 650px; overflow: visible; width: auto; margin: 0 calc(-1 * max(32px, (100vw - 1760px) / 2)) 0 -3rem; isolation: isolate; }
+  .product-preview::after { position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, var(--bg) 0%, rgba(251,252,249,.74) 7%, transparent 23%), linear-gradient(180deg, var(--bg) 0%, transparent 8%, transparent 94%, rgba(251,252,249,.22) 100%); content: ""; pointer-events: none; }
+  img { width: 100%; height: 100%; object-fit: cover; object-position: 51% center; }
+  figcaption { position: absolute; z-index: 2; inset: 0; pointer-events: none; }
+  .annotation { position: absolute; display: inline-flex; max-width: 210px; align-items: center; gap: .55rem; border: 1px solid rgba(17,19,17,.46); border-radius: 12px; background: rgba(251,252,249,.9); padding: .72rem .85rem; color: var(--text); font-size: .68rem; font-weight: 720; line-height: 1.35; backdrop-filter: blur(12px); }
+  .awareness { top: 25%; right: 1.3rem; }
+  .awareness i { width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; background: #76a900; box-shadow: 0 0 0 5px rgba(184,255,25,.3); }
+  .processing { right: 1.3rem; bottom: 14%; }
+  .processing svg { width: 20px; height: 20px; flex: 0 0 20px; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  @media (max-width: 1180px) { .product-preview { min-height: 560px; margin: .5rem -20px 0; } .product-preview::after { background: linear-gradient(180deg, var(--bg) 0%, transparent 10%, transparent 92%, rgba(251,252,249,.25) 100%); } }
+  @media (max-width: 540px) { .product-preview { min-height: 470px; margin-inline: -16px; } img { object-position: 52% center; } .annotation { max-width: 165px; padding: .6rem .7rem; font-size: .61rem; } .awareness { top: 1rem; right: 1rem; } .processing { right: 1rem; bottom: 1rem; } }
+</style>

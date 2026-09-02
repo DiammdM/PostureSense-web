@@ -1,0 +1,78 @@
+---
+import AppStoreButton from './AppStoreButton.astro';
+import { common, getLocaleFromPath } from '../i18n';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const locale = getLocaleFromPath(Astro.url.pathname);
+const copy = common[locale];
+const { title = copy.ctaTitle, description = copy.ctaDescription } = Astro.props;
+---
+
+<section class="section cta-section">
+  <div class="container">
+    <div class="cta surface-card">
+      <div>
+        <p class="eyebrow">{copy.ctaEyebrow}</p>
+        <h2>{title}</h2>
+        <p>{description}</p>
+      </div>
+      <AppStoreButton />
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-section {
+    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .cta {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    border: 3px solid var(--text);
+    background: var(--accent);
+    color: var(--text);
+    padding: clamp(2rem, 6vw, 4rem);
+  }
+
+  .cta > div {
+    min-width: 0;
+    flex: 1;
+  }
+
+  h2 {
+    max-width: 960px;
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: -0.05em;
+    line-height: 1.04;
+    font-weight: 450;
+  }
+
+  .cta div > p:last-child {
+    max-width: 680px;
+    margin: 1rem 0 0;
+    color: rgba(17, 19, 17, 0.68);
+  }
+
+  .cta :global(.app-store-button) {
+    display: none;
+  }
+
+  @media (max-width: 720px) {
+    .cta {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .cta :global(.app-store-button) {
+      display: inline-flex;
+    }
+  }
+</style>

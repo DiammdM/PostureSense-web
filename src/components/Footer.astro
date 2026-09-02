@@ -1,0 +1,79 @@
+---
+import { navigation, siteConfig } from '../config/site';
+import { common, getLocaleFromPath, localizedPath } from '../i18n';
+
+const locale = getLocaleFromPath(Astro.url.pathname);
+const copy = common[locale];
+const localizedNavigation = navigation.map((item, index) => ({ href: localizedPath(item.href, locale), label: copy.nav[index] }));
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="footer-brand" href={localizedPath('/', locale)}>{siteConfig.siteName}</a>
+      <p>{copy.footerLine}</p>
+    </div>
+    <nav aria-label="Footer navigation">
+      {localizedNavigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <div class="legal">
+      <p>© {new Date().getFullYear()} {siteConfig.developerName}</p>
+      <p>{copy.medical}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: 3.5rem 0;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .footer-brand {
+    font-size: 1.15rem;
+    font-weight: 780;
+  }
+
+  p {
+    max-width: 320px;
+    margin: 0.6rem 0 0;
+    color: var(--subtle);
+    font-size: 0.88rem;
+  }
+
+  nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem 1rem;
+  }
+
+  nav a {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  nav a:hover {
+    color: var(--text);
+  }
+
+  .legal {
+    justify-self: end;
+  }
+
+  @media (max-width: 760px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .legal {
+      justify-self: start;
+    }
+  }
+</style>

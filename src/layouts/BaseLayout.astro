@@ -1,0 +1,39 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SEO from '../components/SEO.astro';
+import { appStore } from '../config/site';
+import { getLocaleFromPath, localeTags } from '../i18n';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string | null;
+  type?: 'website' | 'article';
+}
+
+const { title, description, canonical, image, type } = Astro.props;
+const locale = getLocaleFromPath(Astro.url.pathname);
+---
+
+<!doctype html>
+<html lang={localeTags[locale]}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fbfcf9" />
+    <meta name="apple-itunes-app" content={`app-id=${appStore.appId}`} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <SEO {title} {description} {canonical} {image} {type} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <Header />
+    <main id="main-content"><slot /></main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,46 @@
+---
+import { siteConfig } from '../config/site';
+import { localeTags, locales, localizedPath, stripLocalePath } from '../i18n';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string | null;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical = Astro.url.pathname,
+  image = '/og.png',
+  type = 'website',
+  noindex = false,
+} = Astro.props;
+const canonicalUrl = new URL(canonical, siteConfig.siteUrl).toString();
+const imageUrl = image ? new URL(image, siteConfig.siteUrl).toString() : null;
+const alternateBasePath = stripLocalePath(canonical.startsWith('http') ? new URL(canonical).pathname : canonical);
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+{locales.map((locale) => (
+  <link rel="alternate" hreflang={localeTags[locale]} href={new URL(localizedPath(alternateBasePath, locale), siteConfig.siteUrl).toString()} />
+))}
+<link rel="alternate" hreflang="x-default" href={new URL(alternateBasePath, siteConfig.siteUrl).toString()} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={siteConfig.siteName} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+{imageUrl && <meta property="og:image" content={imageUrl} />}
+{imageUrl && <meta property="og:image:width" content="1200" />}
+{imageUrl && <meta property="og:image:height" content="630" />}
+<meta name="twitter:card" content={imageUrl ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{imageUrl && <meta name="twitter:image" content={imageUrl} />}

@@ -1,0 +1,74 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  publishDate: Date;
+  tags: string[];
+  basePath?: string;
+  readLabel?: string;
+}
+
+const { slug, title, description, publishDate, tags, basePath = '/blog', readLabel = 'Read article' } = Astro.props;
+const href = `${basePath}/${slug}/`;
+---
+
+<article class="blog-card surface-card">
+  <div class="meta">
+    <time datetime={publishDate.toISOString()}>{publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</time>
+    <span>{tags[0]}</span>
+  </div>
+  <h2><a href={href}>{title}</a></h2>
+  <p>{description}</p>
+  <a class="read" href={href} aria-label={`${readLabel}: ${title}`}>{readLabel} <span aria-hidden="true">→</span></a>
+</article>
+
+<style>
+  .blog-card {
+    display: flex;
+    min-height: 330px;
+    flex-direction: column;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    transition: transform 160ms ease, border-color 160ms ease;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(17, 19, 17, 0.3);
+  }
+
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--subtle);
+    font-size: 0.72rem;
+    font-weight: 690;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin: 3rem 0 0;
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+  }
+
+  h2 a:hover {
+    color: var(--accent-text);
+  }
+
+  p {
+    margin: 1rem 0 0;
+    color: var(--muted);
+  }
+
+  .read {
+    margin-top: auto;
+    padding-top: 2rem;
+    color: var(--accent-text);
+    font-size: 0.9rem;
+    font-weight: 720;
+  }
+</style>

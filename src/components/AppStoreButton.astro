@@ -1,0 +1,51 @@
+---
+import { appStore } from '../config/site';
+import { common, getLocaleFromPath } from '../i18n';
+
+const locale = getLocaleFromPath(Astro.url.pathname);
+const copy = common[locale];
+---
+
+<a
+  class="app-store-button"
+  href={appStore.url}
+  rel="noopener noreferrer"
+  aria-label={`${copy.downloadSmall} ${copy.appStore}`}
+>
+  <span class="small">{copy.downloadSmall}</span>
+  <span class="label">{copy.appStore} <span aria-hidden="true">↗</span></span>
+</a>
+
+<style>
+  .app-store-button {
+    display: inline-flex;
+    min-height: 58px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 14px;
+    background: var(--text);
+    color: #fff;
+    padding: 0.62rem 1.2rem 0.68rem;
+    font-weight: 760;
+    line-height: 1.05;
+    transition: transform 160ms ease, background 160ms ease;
+  }
+
+  .app-store-button:hover {
+    transform: translateY(-2px);
+    background: #2a2d2a;
+  }
+
+  .small {
+    font-size: 0.64rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+  }
+
+  .label {
+    margin-top: 0.25rem;
+    font-size: 1rem;
+  }
+
+</style>

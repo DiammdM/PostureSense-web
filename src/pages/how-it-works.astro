@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const steps = [
+  ['Place your iPhone on a desk stand', 'Use a stable stand rather than leaning the phone against a moving object. A steady camera position gives Posturely a more consistent view.'],
+  ['Frame your upper body', 'Position the device at a side-front angle. Posturely works best when your head, shoulders, and upper torso remain visible.'],
+  ['Start Posturely monitoring', 'Open the app and begin a session before starting your study, reading, or desk-work block.'],
+  ['Let the app analyze posture on device', 'During the session, Posturely processes camera frames locally to evaluate visible upper-body posture changes.'],
+  ['Respond to reminders in your own way', 'If Posturely notices significant head-down, forward-leaning, tilted, or changed posture, it can alert you with sound or vibration.'],
+] as const;
+---
+
+<BaseLayout
+  title="How Posturely Monitors Your Sitting Posture"
+  description="Learn how to position your iPhone, frame your upper body, start posture monitoring, and receive on-device posture reminders with Posturely."
+  canonical="/how-it-works/"
+>
+  <PageHero
+    eyebrow="How it works"
+    title="Set up Posturely for a clear view of your posture."
+    description="A stable iPhone stand, a visible upper body, and a few seconds of setup are all you need to begin a posture monitoring session."
+  />
+  <section class="steps-section">
+    <div class="container">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'How it works' }]} />
+      <ol class="steps">
+        {steps.map(([title, description], index) => (
+          <li>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <div><h2>{title}</h2><p>{description}</p></div>
+          </li>
+        ))}
+      </ol>
+      <section class="setup-note surface-card" aria-labelledby="setup-title">
+        <p class="eyebrow">Best results</p>
+        <h2 id="setup-title">Keep your upper body in view.</h2>
+        <div>
+          <p>Make sure the camera can see your head, shoulders, and upper torso throughout the session. Avoid placing the phone where books, a laptop screen, or other objects block the view.</p>
+          <p>Lighting, camera angle, clothing, and movement can affect detection. Posturely provides awareness-oriented reminders rather than medical measurements.</p>
+        </div>
+      </section>
+    </div>
+  </section>
+  <CtaBand title="Ready for your next focused session?" />
+</BaseLayout>
+
+<style>
+  .steps-section {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0 0;
+  }
+
+  .steps {
+    margin: 3rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .steps li {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    border-top: 1px solid var(--border);
+    padding: clamp(2rem, 5vw, 4rem) 0;
+  }
+
+  .steps li:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .steps > li > span {
+    color: var(--accent-text);
+    font-size: 0.74rem;
+    font-weight: 760;
+  }
+
+  .steps h2 {
+    margin: 0;
+    font-size: clamp(1.7rem, 4vw, 3rem);
+    letter-spacing: -0.045em;
+    line-height: 1.1;
+    font-weight: 520;
+  }
+
+  .steps p {
+    max-width: 720px;
+    margin: 1rem 0 0;
+    color: var(--muted);
+  }
+
+  .setup-note {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 4rem;
+    padding: clamp(2rem, 5vw, 4rem);
+  }
+
+  .setup-note .eyebrow {
+    grid-column: 1 / -1;
+  }
+
+  .setup-note h2 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3.7rem);
+    letter-spacing: -0.05em;
+    line-height: 1.04;
+    font-weight: 520;
+  }
+
+  .setup-note div p {
+    margin: 0 0 1rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 680px) {
+    .steps li,
+    .setup-note {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>

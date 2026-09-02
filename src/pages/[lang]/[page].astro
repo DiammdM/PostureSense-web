@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FeatureCard from '../../components/FeatureCard.astro';
+import FAQItem from '../../components/FAQItem.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { siteConfig } from '../../config/site';
+import { localizedContent } from '../../data/localized';
+
+const pageKeys = ['features', 'how-it-works', 'privacy', 'support', 'faq'] as const;
+type PageKey = (typeof pageKeys)[number];
+
+export function getStaticPaths() {
+  const pageKeys = ['features', 'how-it-works', 'privacy', 'support', 'faq'] as const;
+  return ['zh', 'ja'].flatMap((lang) => pageKeys.map((page) => ({ params: { lang, page }, props: { lang, page } })));
+}
+
+interface Props { lang: 'zh' | 'ja'; page: PageKey }
+const { lang, page } = Astro.props;
+const locale = localizedContent[lang];
+const labels = lang === 'zh'
+  ? { features: '功能', 'how-it-works': '工作原理', privacy: '隐私政策', support: '支持', faq: '常见问题', home: '首页', context: '重要说明', best: '最佳效果', contact: '联系支持' }
+  : { features: '機能', 'how-it-works': '使い方', privacy: 'プライバシー', support: 'サポート', faq: 'よくある質問', home: 'ホーム', context: '重要な前提', best: 'より良い検出', contact: 'お問い合わせ' };
+const pageContent = page === 'features' ? locale.features : page === 'how-it-works' ? locale.how : page === 'privacy' ? locale.privacy : page === 'support' ? locale.support : locale.faq;
+const faqJsonLd = page === 'faq' ? {
+  '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: lang === 'zh' ? 'zh-Hans' : 'ja',
+  mainEntity: locale.faq.items.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })),
+} : null;
+---
+
+<BaseLayout title={pageContent.title} description={pageContent.description} canonical={`/${lang}/${page}/`}>
+  {faqJsonLd && <Fragment slot="head"><JsonLd data={faqJsonLd} /></Fragment>}
+  <PageHero eyebrow={pageContent.eyebrow} title={pageContent.heading} description={pageContent.intro} />
+
+  {page === 'features' && (
+    <section class="content-section"><div class="container">
+      <Breadcrumbs items={[{ label: labels.home, href: `/${lang}/` }, { label: labels.features }]} />
+      <h2 class="sr-only">{labels.features}</h2>
+      <div class="feature-grid">{locale.features.items.map(([title,description],index) => <FeatureCard number={String(index+1).padStart(2,'0')} {title} {description} />)}</div>
+      <aside class="note surface-card"><p class="eyebrow">{labels.context}</p><h2>{locale.features.noteTitle}</h2><p>{locale.features.note}</p></aside>
+    </div></section>
+  )}
+
+  {page === 'how-it-works' && (
+    <section class="content-section"><div class="container">
+      <Breadcrumbs items={[{ label: labels.home, href: `/${lang}/` }, { label: labels['how-it-works'] }]} />
+      <ol class="steps">{locale.how.steps.map(([title,description],index) => <li><span>{String(index+1).padStart(2,'0')}</span><div><h2>{title}</h2><p>{description}</p></div></li>)}</ol>
+      <section class="note surface-card"><p class="eyebrow">{labels.best}</p><h2>{locale.how.bestTitle}</h2><div><p>{locale.how.bestP1}</p><p>{locale.how.bestP2}</p></div></section>
+    </div></section>
+  )}
+
+  {page === 'privacy' && (
+    <article class="content-section"><div class="container policy-grid">
+      <aside><Breadcrumbs items={[{ label: labels.home, href: `/${lang}/` }, { label: labels.privacy }]} /><p>{locale.privacy.updated}</p></aside>
+      <div class="policy-content">{locale.privacy.sections.map(([title,paragraphs],index) => <section><h2>{title}</h2>{index === 4 ? <div class="todo surface-card">{paragraphs.map((paragraph) => <p>{paragraph}</p>)}</div> : paragraphs.map((paragraph) => <p>{paragraph}</p>)}</section>)}</div>
+    </div></article>
+  )}
+
+  {page === 'support' && (
+    <section class="content-section"><div class="container">
+      <Breadcrumbs items={[{ label: labels.home, href: `/${lang}/` }, { label: labels.support }]} />
+      <div class="support-grid">{locale.support.items.map(([title,description],index) => <article class="surface-card"><span>{String(index+1).padStart(2,'0')}</span><h2>{title}</h2><p>{description}</p></article>)}</div>
+      <section class="contact surface-card"><div><p class="eyebrow">{labels.contact}</p><h2>{locale.support.contactTitle}</h2><p>{locale.support.contactText}</p></div><a href={`mailto:${siteConfig.supportEmail}?subject=Posturely%20Support`}>{locale.support.email} ↗</a></section>
+    </div></section>
+  )}
+
+  {page === 'faq' && (
+    <section class="content-section"><div class="container faq-layout">
+      <aside><Breadcrumbs items={[{ label: labels.home, href: `/${lang}/` }, { label: labels.faq }]} /></aside>
+      <div>{locale.faq.items.map(([question,answer]) => <FAQItem {question} {answer} />)}</div>
+    </div></section>
+  )}
+
+  {page !== 'privacy' && <CtaBand />}
+</BaseLayout>
+
+<style>
+  .content-section{border-top:1px solid var(--border);padding:2rem 0 7rem}.feature-grid,.support-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}.support-grid{grid-template-columns:repeat(2,1fr)}.support-grid article{min-height:250px;padding:clamp(1.5rem,4vw,2.5rem)}.support-grid span{color:var(--accent-text);font-size:.72rem}.support-grid h2{margin:3rem 0 0;font-size:clamp(1.4rem,3vw,2rem);font-weight:520;letter-spacing:-.04em}.support-grid p{color:var(--muted)}.note,.contact{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1rem;padding:clamp(2rem,5vw,4rem)}.note .eyebrow{grid-column:1/-1}.note h2,.contact h2{margin:0;font-size:clamp(2rem,5vw,3.7rem);font-weight:520;letter-spacing:-.05em;line-height:1.04}.note>p:last-child,.note div p,.contact p:last-child{margin:0;color:var(--muted)}.contact{align-items:end;border-color:var(--border-strong)}.contact a{border-radius:14px;background:var(--accent);color:var(--accent-ink);padding:1rem;text-align:center;font-weight:760}.steps{margin:3rem 0 0;padding:0;list-style:none}.steps li{display:grid;grid-template-columns:120px 1fr;border-top:1px solid var(--border);padding:clamp(2rem,5vw,4rem) 0}.steps li:last-child{border-bottom:1px solid var(--border)}.steps>li>span{color:var(--accent-text);font-size:.74rem}.steps h2{margin:0;font-size:clamp(1.7rem,4vw,3rem);font-weight:520;letter-spacing:-.045em}.steps p{max-width:720px;color:var(--muted)}.policy-grid,.faq-layout{display:grid;grid-template-columns:250px minmax(0,760px);justify-content:space-between;gap:4rem}.policy-grid aside>p{color:var(--subtle);font-size:.8rem}.policy-content section{border-bottom:1px solid var(--border);padding-bottom:2.5rem;margin-bottom:2.5rem}.policy-content h2{font-size:clamp(1.45rem,3vw,2rem);font-weight:520;letter-spacing:-.035em}.policy-content p{color:var(--muted)}.todo{border-color:rgba(138,90,0,.25);padding:1.2rem}.todo p:first-child{color:#8a5a00}.faq-layout{grid-template-columns:270px 1fr}@media(max-width:900px){.feature-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.feature-grid,.support-grid,.note,.contact,.policy-grid,.faq-layout{grid-template-columns:1fr}.steps li{grid-template-columns:1fr;gap:1rem}}
+</style>

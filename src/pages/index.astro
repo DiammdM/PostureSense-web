@@ -1,0 +1,36 @@
+---
+import Hero from '../components/Hero.astro';
+import HomeFeatureShowcase from '../components/HomeFeatureShowcase.astro';
+import HomeStorySections from '../components/HomeStorySections.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { appStore, siteConfig } from '../config/site';
+
+const softwareApplication = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: siteConfig.siteName,
+  applicationCategory: 'LifestyleApplication',
+  operatingSystem: 'iOS, iPadOS',
+  url: siteConfig.siteUrl,
+  downloadUrl: appStore.url,
+  description: siteConfig.description,
+  publisher: {
+    '@type': 'Organization',
+    name: siteConfig.developerName,
+    url: siteConfig.siteUrl,
+  },
+};
+---
+
+<BaseLayout
+  title="Posturely — Posture Reminder App for iPhone"
+  description="Posturely monitors upper-body posture on your iPhone or iPad and reminds you when it detects head-down, forward-leaning, tilted, or changed posture."
+>
+  <Fragment slot="head">
+    <JsonLd data={softwareApplication} />
+  </Fragment>
+  <Hero />
+  <HomeFeatureShowcase />
+  <HomeStorySections />
+</BaseLayout>

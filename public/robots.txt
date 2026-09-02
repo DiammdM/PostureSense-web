@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://posturely.daimmd.com/sitemap.xml

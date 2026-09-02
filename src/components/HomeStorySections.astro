@@ -1,0 +1,283 @@
+---
+import { getLocaleFromPath, localizedPath } from '../i18n';
+
+const locale = getLocaleFromPath(Astro.url.pathname);
+const copy = {
+  en: {
+    howEyebrow: 'How it works', howTitle: 'Start a session in three steps',
+    steps: [
+      ['Place your iPhone', 'Set your iPhone or iPad on a stable desk stand where your upper body is visible.'],
+      ['Start monitoring', 'Open Posturely and begin a session before you study, read, or work.'],
+      ['Get a gentle reminder', 'Choose sound or vibration for meaningful posture changes.'],
+    ],
+    signalsEyebrow: 'Posture awareness', signalsTitle: 'What Posturely notices',
+    signalsIntro: 'Posturely compares visible upper-body changes with the position established for your current session.',
+    signals: [
+      ['Head down', 'Head position moves noticeably downward.'],
+      ['Leaning forward', 'Upper body moves forward during desk time.'],
+      ['Body tilt', 'Upper body tilts noticeably to either side.'],
+      ['Posture change', 'Current posture differs from the session reference.'],
+    ],
+    nonMedical: 'Posture awareness only — not medical diagnosis or measurement.',
+    usesEyebrow: 'Made for desk time', usesTitle: 'Fits the moments when focus takes over',
+    uses: [
+      ['Studying', 'Stay aware during focused study sessions.'],
+      ['Reading', 'Notice changes during longer reading sessions.'],
+      ['Desk work', 'Keep posture awareness alongside daily tasks.'],
+      ['Long computer sessions', 'Bring gentle reminders into extended screen time.'],
+    ],
+    privacyEyebrow: 'Privacy by design', privacyTitle: 'Camera frames stay on your device',
+    privacyBody: 'Camera frames used for posture detection are processed locally on your iPhone or iPad and are not uploaded to Posturely servers.',
+    privacyLink: 'Read the privacy policy',
+    faqEyebrow: 'Questions', faqTitle: 'About Posturely', faqLink: 'View all questions',
+    faqs: [
+      ['What is Posturely?', 'Posturely is an iPhone and iPad app for posture awareness during focused desk time.'],
+      ['How does Posturely detect posture?', 'It observes visible upper-body changes during an active session and compares them with that session’s reference posture.'],
+      ['Does Posturely upload camera footage?', 'No. Camera frames used for posture detection are processed locally on the device.'],
+    ],
+  },
+  zh: {
+    howEyebrow: '工作原理', howTitle: '三步开始一次监督',
+    steps: [
+      ['放好 iPhone', '将 iPhone 或 iPad 固定在稳定的桌面支架上，确保上半身清晰可见。'],
+      ['开始监督', '学习、阅读或工作前，在 Posturely 中开始一次监督。'],
+      ['坐姿变化时获得提醒', '检测到明显变化后，通过声音或震动温和提醒。'],
+    ],
+    signalsEyebrow: '坐姿觉察', signalsTitle: 'Posturely 会留意什么',
+    signalsIntro: 'Posturely 会把可见的上半身变化与本次监督建立的姿态进行比较。',
+    signals: [
+      ['低头', '头部位置明显向下移动。'],
+      ['身体前倾', '专注时上半身逐渐向前移动。'],
+      ['身体倾斜', '上半身出现明显的左右倾斜。'],
+      ['明显坐姿变化', '当前坐姿偏离本次监督的参考姿态。'],
+    ],
+    nonMedical: '用于坐姿觉察，不提供医疗诊断或测量。',
+    usesEyebrow: '桌面场景', usesTitle: '适合这些桌面时刻',
+    uses: [
+      ['学习', '专注投入时，也能留意明显的坐姿变化。'],
+      ['阅读', '长时间阅读时，温和提醒自己调整。'],
+      ['桌面办公', '把坐姿觉察融入写作、规划和日常任务。'],
+      ['长时间使用电脑', '在持续屏幕时间中获得适时提醒。'],
+    ],
+    privacyEyebrow: '隐私设计', privacyTitle: '画面留在设备里',
+    privacyBody: '摄像头画面仅在 iPhone 或 iPad 本地处理，不会上传到 Posturely 服务器。',
+    privacyLink: '阅读隐私政策',
+    faqEyebrow: '常见问题', faqTitle: '关于 Posturely', faqLink: '查看全部常见问题',
+    faqs: [
+      ['Posturely 是什么？', 'Posturely 是一款用于专注桌面时间坐姿觉察的 iPhone 和 iPad App。'],
+      ['Posturely 如何检测坐姿？', '监督期间，Posturely 会观察可见的上半身变化，并与本次监督建立的参考姿态进行比较。'],
+      ['Posturely 会上传摄像头画面吗？', '不会。用于坐姿检测的摄像头画面仅在设备本地处理。'],
+    ],
+  },
+  ja: {
+    howEyebrow: '使い方', howTitle: '3 ステップでモニタリングを開始',
+    steps: [
+      ['iPhone を置く', '上半身が見えるよう、iPhone または iPad を安定したデスクスタンドに置きます。'],
+      ['モニタリングを開始', '勉強、読書、仕事の前に Posturely でセッションを開始します。'],
+      ['変化したら通知', '大きな姿勢変化を検出すると、音または振動でやさしく知らせます。'],
+    ],
+    signalsEyebrow: '姿勢への気づき', signalsTitle: 'Posturely が気づく変化',
+    signalsIntro: '見えている上半身の変化を、そのセッションで設定した姿勢と比較します。',
+    signals: [
+      ['うつむき', '頭の位置が大きく下へ移動。'],
+      ['前傾', 'デスク時間に上半身が前へ移動。'],
+      ['体の傾き', '上半身が左右へ大きく傾く。'],
+      ['姿勢の変化', '現在の姿勢がセッションの基準から変化。'],
+    ],
+    nonMedical: '姿勢への気づきを目的とし、医療診断や測定は行いません。',
+    usesEyebrow: 'デスク時間', usesTitle: '集中するデスク時間に',
+    uses: [
+      ['勉強', '集中しながら姿勢の変化にも気づく。'],
+      ['読書', '長い読書時間にやさしく知らせる。'],
+      ['デスクワーク', '日々の作業に姿勢意識を取り入れる。'],
+      ['長時間のパソコン作業', '長い画面時間にも適切なタイミングで通知。'],
+    ],
+    privacyEyebrow: 'プライバシー設計', privacyTitle: 'カメラ映像はデバイス内に',
+    privacyBody: '姿勢検出用のカメラフレームは iPhone または iPad 上で処理され、Posturely のサーバーへアップロードされません。',
+    privacyLink: 'プライバシーポリシーを読む',
+    faqEyebrow: 'よくある質問', faqTitle: 'Posturely について', faqLink: 'すべての質問を見る',
+    faqs: [
+      ['Posturely とは？', '集中するデスク時間の姿勢への気づきを支える iPhone・iPad アプリです。'],
+      ['姿勢をどのように検出しますか？', 'セッション中に見える上半身の変化を、そのセッションで設定した姿勢と比較します。'],
+      ['カメラ映像をアップロードしますか？', 'いいえ。姿勢検出用のカメラフレームはデバイス上で処理されます。'],
+    ],
+  },
+}[locale];
+---
+
+<div class:list={['home-story', `lang-${locale}`]}>
+  <section class="story-section how-section" aria-labelledby="story-how-title">
+    <div class="container">
+      <header class="story-heading compact">
+        <p class="eyebrow">{copy.howEyebrow}</p>
+        <h2 id="story-how-title">{copy.howTitle}</h2>
+      </header>
+      <ol class="timeline">
+        {copy.steps.map(([title, description], index) => (
+          <li>
+            <span class="step-number">0{index + 1}</span>
+            <div class="step-visual" aria-hidden="true">
+              {index === 0 && <svg viewBox="0 0 90 90" fill="none"><rect x="31" y="10" width="28" height="50" rx="7"></rect><path d="M45 60v11M27 77h36M34 71h22"></path></svg>}
+              {index === 1 && <svg viewBox="0 0 90 90" fill="none"><rect x="27" y="7" width="36" height="68" rx="8"></rect><path d="M39 14h12M40 67h10"></path><circle cx="45" cy="42" r="14"></circle><path d="m42 34 10 8-10 8V34Z"></path><path d="M68 22v13M62 28.5h12"></path></svg>}
+              {index === 2 && <svg viewBox="0 0 90 90" fill="none"><path d="M62 40a17 17 0 0 0-34 0c0 19-9 19-9 24h52c0-5-9-5-9-24Z"></path><path d="M39 72h12"></path><circle cx="68" cy="20" r="9"></circle><path d="M68 16v8M64 20h8"></path></svg>}
+            </div>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="signals-section" aria-labelledby="signals-title">
+    <div class="container signals-inner">
+      <header class="signals-heading">
+        <p class="eyebrow">{copy.signalsEyebrow}</p>
+        <h2 id="signals-title">{copy.signalsTitle}</h2>
+        <p>{copy.signalsIntro}</p>
+      </header>
+      <div class="signals-stage">
+        <div class="signal-list left">
+          {copy.signals.slice(0, 2).map(([title, description]) => <article><i aria-hidden="true"></i><div><h3>{title}</h3><p>{description}</p></div></article>)}
+        </div>
+        <div class="pose-map" aria-hidden="true">
+          <span class="ring one"></span><span class="ring two"></span><span class="ring three"></span>
+          <svg viewBox="0 0 300 360" fill="none">
+            <path d="M150 42c-27 0-45 21-45 48v45l-34 18-25 93 28 74M150 42c27 0 45 21 45 48v45l34 18 25 93-28 74M105 135l45 22 45-22M150 157v137M74 320l34-64M226 320l-34-64"></path>
+            <path d="M108 256h84"></path>
+            {[[150,42],[105,90],[195,90],[105,135],[195,135],[71,153],[229,153],[46,246],[254,246],[74,320],[226,320],[150,157],[150,294]].map(([cx,cy]) => <circle {cx} {cy} r="6"></circle>)}
+          </svg>
+        </div>
+        <div class="signal-list right">
+          {copy.signals.slice(2).map(([title, description]) => <article><i aria-hidden="true"></i><div><h3>{title}</h3><p>{description}</p></div></article>)}
+        </div>
+      </div>
+      <p class="non-medical">{copy.nonMedical}</p>
+    </div>
+  </section>
+
+  <section class="story-section uses-section" aria-labelledby="uses-title">
+    <div class="container">
+      <header class="story-heading compact">
+        <p class="eyebrow">{copy.usesEyebrow}</p>
+        <h2 id="uses-title">{copy.usesTitle}</h2>
+      </header>
+      <div class="use-grid">
+        {copy.uses.map(([title, description], index) => (
+          <article>
+            <span>0{index + 1}</span>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="privacy-band" aria-labelledby="story-privacy-title">
+    <div class="privacy-copy">
+      <div>
+        <p class="eyebrow">{copy.privacyEyebrow}</p>
+        <h2 id="story-privacy-title"><span class="lock-icon" aria-hidden="true"></span>{copy.privacyTitle}</h2>
+      </div>
+      <p>{copy.privacyBody}</p>
+      <a href={localizedPath('/privacy/', locale)}>{copy.privacyLink} <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="privacy-diagram" aria-hidden="true">
+      <svg class="device stand" viewBox="0 0 80 100" fill="none"><rect x="20" y="8" width="40" height="68" rx="8"></rect><path d="M40 76v11M23 92h34"></path></svg>
+      <span class="secure-lock"></span>
+      <svg class="device phone" viewBox="0 0 80 100" fill="none"><rect x="20" y="8" width="40" height="78" rx="8"></rect><path d="M34 15h12"></path></svg>
+    </div>
+  </section>
+
+  <section class="story-section faq-section" aria-labelledby="story-faq-title">
+    <div class="container faq-layout">
+      <header class="story-heading compact">
+        <p class="eyebrow">{copy.faqEyebrow}</p>
+        <h2 id="story-faq-title">{copy.faqTitle}</h2>
+        <a href={localizedPath('/faq/', locale)}>{copy.faqLink} <span aria-hidden="true">→</span></a>
+      </header>
+      <div class="faq-list">
+        {copy.faqs.map(([question, answer]) => (
+          <details>
+            <summary>{question}<span aria-hidden="true">+</span></summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .home-story { --story-line: rgba(17,19,17,.14); }
+  .story-section { padding: clamp(5rem, 9vw, 8rem) 0; }
+  .story-heading { max-width: 790px; }
+  .story-heading h2, .signals-heading h2, .privacy-copy h2 { margin: 0; font-size: clamp(2.75rem, 5.5vw, 5.4rem); font-weight: 500; letter-spacing: -.055em; line-height: .98; }
+  .story-heading.compact h2 { max-width: 850px; font-size: clamp(2.65rem, 4.4vw, 4.35rem); }
+  .timeline { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 4vw, 4.5rem); margin: clamp(3rem, 6vw, 5.5rem) 0 0; padding: 0; list-style: none; }
+  .timeline::before { position: absolute; top: 15px; right: 0; left: 0; height: 1px; background: var(--accent); content: ""; }
+  .timeline::after { position: absolute; top: 10px; right: 0; width: 10px; height: 10px; border-top: 1px solid var(--accent-text); border-right: 1px solid var(--accent-text); content: ""; transform: rotate(45deg); }
+  .timeline li { position: relative; min-width: 0; }
+  .step-number { position: relative; z-index: 1; display: grid; width: 31px; height: 31px; place-items: center; border: 1px solid var(--accent-text); border-radius: 50%; background: var(--bg); color: var(--text); font-size: .7rem; font-weight: 760; }
+  .step-visual { display: grid; height: 180px; align-items: center; margin: 1.25rem 0 .5rem; }
+  .step-visual svg { width: 92px; height: 92px; stroke: var(--text); stroke-width: 1.45; stroke-linecap: round; stroke-linejoin: round; }
+  .timeline h3 { margin: 1rem 0 0; font-size: clamp(1.2rem, 2vw, 1.55rem); letter-spacing: -.025em; }
+  .timeline p { max-width: 360px; margin: .75rem 0 0; color: var(--muted); font-size: .88rem; line-height: 1.65; }
+  .signals-section { overflow: hidden; background: #0d0f0d; color: #f8faf5; padding: clamp(5rem, 8vw, 7rem) 0 3rem; }
+  .signals-heading { max-width: 1080px; }
+  .signals-heading .eyebrow { color: var(--accent); }
+  .signals-heading > p:last-child { max-width: 650px; margin: 1.3rem 0 0; color: rgba(248,250,245,.6); }
+  .signals-stage { display: grid; grid-template-columns: minmax(220px, .8fr) minmax(300px, 1.15fr) minmax(220px, .8fr); align-items: center; gap: clamp(1rem, 4vw, 4rem); margin-top: 2.5rem; }
+  .signal-list { display: grid; gap: clamp(2rem, 5vw, 5rem); }
+  .signal-list article { position: relative; display: grid; grid-template-columns: 42px 1fr; align-items: start; gap: 1rem; }
+  .signal-list i { display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid rgba(248,250,245,.24); border-radius: 50%; }
+  .signal-list i::after { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px rgba(184,255,25,.12); content: ""; }
+  .signal-list h3 { margin: 0; font-size: 1.08rem; }
+  .signal-list p { margin: .45rem 0 0; color: rgba(248,250,245,.58); font-size: .78rem; line-height: 1.55; }
+  .pose-map { position: relative; display: grid; aspect-ratio: 1 / 1.08; place-items: center; }
+  .pose-map .ring { position: absolute; border: 1px solid rgba(184,255,25,.12); border-radius: 50%; }
+  .pose-map .one { width: 95%; height: 88%; }
+  .pose-map .two { width: 72%; height: 67%; }
+  .pose-map .three { width: 48%; height: 45%; }
+  .pose-map svg { position: relative; z-index: 1; width: min(86%, 360px); height: auto; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  .pose-map circle { fill: var(--accent); stroke: #0d0f0d; stroke-width: 3; }
+  .non-medical { width: fit-content; margin: 1rem auto 0; border: 1px solid rgba(248,250,245,.24); border-radius: 999px; padding: .55rem .9rem; color: rgba(248,250,245,.62); font-size: .72rem; }
+  .uses-section { background: #fbfcf9; }
+  .use-grid { display: grid; grid-template-columns: repeat(2, 1fr); margin-top: clamp(2.5rem, 5vw, 4rem); overflow: hidden; border: 1px solid var(--story-line); border-radius: 24px; }
+  .use-grid article { position: relative; min-height: 240px; padding: clamp(1.75rem, 4vw, 3.5rem); }
+  .use-grid article:nth-child(even) { border-left: 1px solid var(--story-line); }
+  .use-grid article:nth-child(n + 3) { border-top: 1px solid var(--story-line); }
+  .use-grid article:nth-child(2)::after { position: absolute; top: 0; right: 0; width: 105px; height: 105px; background-image: radial-gradient(circle, var(--accent-text) 1.2px, transparent 1.3px); background-size: 10px 10px; content: ""; clip-path: polygon(30% 0,100% 0,100% 100%,0 70%); opacity: .65; }
+  .use-grid article:nth-child(3)::after { position: absolute; top: 0; right: 0; width: 120px; height: 120px; border-radius: 0 0 0 100%; background: var(--accent); content: ""; }
+  .use-grid span { color: var(--accent-text); font-size: .72rem; font-weight: 780; }
+  .use-grid h3 { margin: 1.6rem 0 0; font-size: clamp(2rem, 4vw, 3.6rem); font-weight: 520; letter-spacing: -.045em; line-height: 1; }
+  .use-grid p { max-width: 420px; margin: .8rem 0 0; color: var(--muted); font-size: .85rem; }
+  .privacy-band { display: grid; grid-template-columns: 1fr 1fr; min-height: 350px; }
+  .privacy-copy { display: flex; flex-direction: column; justify-content: center; background: var(--accent); padding-block: clamp(3rem, 7vw, 7rem); padding-inline-start: max(20px, calc((100vw - var(--max-width)) / 2)); padding-inline-end: clamp(2rem, 5vw, 5rem); }
+  .privacy-copy .eyebrow { color: rgba(17,19,17,.62); }
+  .privacy-copy h2 { display: flex; align-items: center; gap: 1rem; font-size: clamp(2.5rem, 4.5vw, 4.4rem); }
+  .privacy-copy > p { max-width: 620px; margin: 1.5rem 0 0; border-top: 1px solid rgba(17,19,17,.28); padding-top: 1.5rem; color: rgba(17,19,17,.72); }
+  .privacy-copy > a { width: fit-content; margin-top: 1.5rem; border-bottom: 2px solid var(--text); padding-bottom: .2rem; font-size: .82rem; font-weight: 760; }
+  .lock-icon, .secure-lock { position: relative; display: inline-block; width: 38px; height: 32px; flex: 0 0 auto; border-radius: 5px; background: var(--text); }
+  .lock-icon::before, .secure-lock::before { position: absolute; width: 20px; height: 19px; border: 4px solid currentColor; border-bottom: 0; border-radius: 12px 12px 0 0; content: ""; transform: translate(5px,-14px); }
+  .privacy-diagram { position: relative; display: grid; grid-template-columns: 1fr auto 1fr; place-items: center; overflow: hidden; background: #0d0f0d; }
+  .privacy-diagram::before, .privacy-diagram::after { position: absolute; width: min(28vw, 360px); height: min(28vw, 360px); border: 1px solid rgba(184,255,25,.16); border-radius: 50%; content: ""; }
+  .privacy-diagram::after { width: min(18vw, 230px); height: min(18vw, 230px); }
+  .privacy-diagram .device { position: relative; z-index: 1; width: 74px; stroke: rgba(248,250,245,.72); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .secure-lock { z-index: 2; width: 50px; height: 44px; background: var(--accent); color: var(--accent); box-shadow: 0 0 0 28px rgba(184,255,25,.06); }
+  .secure-lock::before { width: 25px; height: 24px; border-width: 5px; transform: translate(7px,-17px); }
+  .faq-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(3rem, 9vw, 9rem); }
+  .faq-section { padding-bottom: clamp(2.5rem, 4vw, 4rem); }
+  .faq-layout .story-heading a { display: inline-block; margin-top: 1.6rem; color: var(--accent-text); font-size: .82rem; font-weight: 760; }
+  .faq-list details { border-top: 1px solid var(--story-line); }
+  .faq-list details:last-child { border-bottom: 1px solid var(--story-line); }
+  .faq-list summary { display: flex; cursor: pointer; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.55rem 0; font-size: 1rem; font-weight: 700; list-style: none; }
+  .faq-list summary::-webkit-details-marker { display: none; }
+  .faq-list summary span { font-size: 1.4rem; font-weight: 400; transition: transform 150ms ease; }
+  .faq-list details[open] summary span { transform: rotate(45deg); }
+  .faq-list details p { margin: -.35rem 0 1.5rem; color: var(--muted); }
+  @media (max-width: 940px) { .signals-stage { grid-template-columns: 1fr 1.1fr; } .signal-list.right { grid-column: 1; grid-row: 2; } .pose-map { grid-column: 2; grid-row: 1 / span 2; } .privacy-band { grid-template-columns: 1fr; } .privacy-diagram { min-height: 300px; } }
+  @media (max-width: 720px) { .story-section { padding: 4.5rem 0; } .timeline { grid-template-columns: 1fr; gap: 2.5rem; } .timeline::before { top: 0; right: auto; bottom: 0; left: 15px; width: 1px; height: auto; } .timeline::after { display: none; } .timeline li { padding-left: 3.5rem; } .step-number { position: absolute; top: 0; left: 0; } .step-visual { height: 150px; margin-top: 0; } .signals-stage { grid-template-columns: 1fr; } .pose-map { grid-column: 1; grid-row: 1; max-width: 380px; margin-inline: auto; } .signal-list.left, .signal-list.right { grid-column: 1; grid-row: auto; grid-template-columns: 1fr 1fr; gap: 1.5rem; } .signal-list article { grid-template-columns: 32px 1fr; gap: .75rem; } .signal-list i { width: 32px; height: 32px; } .non-medical { border-radius: 16px; text-align: center; } .use-grid { grid-template-columns: 1fr; } .use-grid article:nth-child(even) { border-left: 0; } .use-grid article + article { border-top: 1px solid var(--story-line); } .privacy-copy { padding: 4rem 20px; } .faq-layout { grid-template-columns: 1fr; gap: 2.5rem; } .faq-section { padding-bottom: 2.5rem; } }
+  @media (max-width: 480px) { .story-heading h2, .signals-heading h2, .privacy-copy h2 { font-size: clamp(2.45rem, 12vw, 3.25rem); } .signal-list.left, .signal-list.right { grid-template-columns: 1fr; } .use-grid article { min-height: 210px; } }
+</style>

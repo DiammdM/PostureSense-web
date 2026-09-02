@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FAQItem from '../components/FAQItem.astro';
+import JsonLd from '../components/JsonLd.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { faqs } from '../data/faqs';
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+---
+
+<BaseLayout
+  title="Posturely FAQ — Posture Detection, Privacy and Setup"
+  description="Answers about Posturely posture detection, on-device camera processing, phone placement, desk use, iPhone and iPad availability, and medical limitations."
+  canonical="/faq/"
+>
+  <Fragment slot="head"><JsonLd data={faqJsonLd} /></Fragment>
+  <PageHero
+    eyebrow="Frequently asked questions"
+    title="Straight answers about Posturely."
+    description="Learn what Posturely detects, how to position your device, how camera processing works, and what the app is—and is not—designed to do."
+  />
+  <section class="faq-section">
+    <div class="container faq-layout">
+      <aside>
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'FAQ' }]} />
+        <p>Posturely is an awareness tool for everyday desk use, not a medical product.</p>
+      </aside>
+      <div>{faqs.map((item) => <FAQItem question={item.question} answer={item.answer} />)}</div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .faq-section {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0 1rem;
+  }
+
+  .faq-layout {
+    display: grid;
+    grid-template-columns: 270px 1fr;
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  aside p {
+    margin-top: 2rem;
+    color: var(--subtle);
+    font-size: 0.86rem;
+  }
+
+  @media (max-width: 760px) {
+    .faq-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
