@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
-import HomeFeatureShowcase from '../../components/HomeFeatureShowcase.astro';
 import HomeStorySections from '../../components/HomeStorySections.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { appStore, siteConfig } from '../../config/site';
@@ -27,6 +26,5 @@ const softwareApplication = {
 <BaseLayout title={home.title} description={home.description} canonical={`/${lang}/`}>
   <Fragment slot="head"><JsonLd data={softwareApplication} /></Fragment>
   <Hero />
-  <HomeFeatureShowcase />
   <HomeStorySections />
 </BaseLayout>

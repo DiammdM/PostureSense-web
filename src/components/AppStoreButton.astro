@@ -1,19 +1,20 @@
 ---
-import { appStore } from '../config/site';
-import { common, getLocaleFromPath } from '../i18n';
+import { getLocaleFromPath, localizedPath } from '../i18n';
 
 const locale = getLocaleFromPath(Astro.url.pathname);
-const copy = common[locale];
+const label = {
+  en: 'View download guide',
+  zh: '查看下载说明',
+  ja: 'ダウンロード方法を見る',
+}[locale];
 ---
 
 <a
   class="app-store-button"
-  href={appStore.url}
-  rel="noopener noreferrer"
-  aria-label={`${copy.downloadSmall} ${copy.appStore}`}
+  href={localizedPath('/download/', locale)}
+  aria-label={label}
 >
-  <span class="small">{copy.downloadSmall}</span>
-  <span class="label">{copy.appStore} <span aria-hidden="true">↗</span></span>
+  <span class="label">{label} <span aria-hidden="true">→</span></span>
 </a>
 
 <style>

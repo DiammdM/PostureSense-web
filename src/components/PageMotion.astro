@@ -1,0 +1,153 @@
+<script is:inline>
+  try {
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('page-motion-ready');
+    }
+  } catch {}
+</script>
+
+<style is:global>
+  html.page-motion-ready [data-page-reveal] {
+    --page-reveal-y: 28px;
+    --page-reveal-scale: .955;
+    opacity: 0;
+    filter: blur(4px);
+    transform: translate3d(0, var(--page-reveal-y), 0);
+    will-change: opacity, transform, filter;
+  }
+
+  html.page-motion-ready [data-page-reveal='scale'] {
+    transform: translate3d(0, 20px, 0) scale(var(--page-reveal-scale));
+  }
+
+  html.page-motion-ready [data-page-reveal='fade'] {
+    transform: none;
+  }
+
+  html.page-motion-ready [data-page-reveal='line'] {
+    filter: none;
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  html.page-motion-ready [data-page-reveal].is-page-visible {
+    animation: page-reveal-up 880ms cubic-bezier(.2,.65,.25,1) var(--page-reveal-delay, 0ms) both;
+  }
+
+  html.page-motion-ready [data-page-reveal='scale'].is-page-visible {
+    animation-name: page-reveal-scale;
+  }
+
+  html.page-motion-ready [data-page-reveal='fade'].is-page-visible {
+    animation-name: page-reveal-fade;
+  }
+
+  html.page-motion-ready [data-page-reveal='line'].is-page-visible {
+    animation-name: page-reveal-line;
+    animation-duration: 720ms;
+  }
+
+  @keyframes page-reveal-up {
+    from { opacity: 0; filter: blur(4px); transform: translate3d(0, var(--page-reveal-y), 0); }
+    to { opacity: 1; filter: none; transform: none; }
+  }
+
+  @keyframes page-reveal-scale {
+    from { opacity: 0; filter: blur(4px); transform: translate3d(0, calc(var(--page-reveal-y) * .72), 0) scale(var(--page-reveal-scale)); }
+    to { opacity: 1; filter: none; transform: none; }
+  }
+
+  @keyframes page-reveal-fade {
+    from { opacity: 0; filter: blur(4px); }
+    to { opacity: 1; filter: none; }
+  }
+
+  @keyframes page-reveal-line {
+    from { opacity: 0; transform: scaleX(0); }
+    to { opacity: 1; transform: scaleX(1); }
+  }
+
+  @media (max-width: 680px) {
+    html.page-motion-ready [data-page-reveal] {
+      --page-reveal-y: 18px;
+    }
+
+    html.page-motion-ready [data-page-reveal='scale'] {
+      --page-reveal-scale: .97;
+      transform: translate3d(0, 12px, 0) scale(var(--page-reveal-scale));
+    }
+
+    html.page-motion-ready [data-page-reveal='fade'] {
+      transform: none;
+    }
+
+    html.page-motion-ready [data-page-reveal].is-page-visible {
+      animation-duration: 700ms;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-page-reveal] {
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  let cleanupPageMotion: (() => void) | null = null;
+
+  const initializePageMotion = () => {
+    cleanupPageMotion?.();
+
+    const targets = [...document.querySelectorAll<HTMLElement>('[data-page-reveal]')];
+    if (!targets.length) {
+      cleanupPageMotion = null;
+      return;
+    }
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.documentElement.classList.toggle('page-motion-ready', !reduceMotion);
+    targets.forEach((target) => {
+      const delay = Number(target.dataset.pageDelay ?? 0);
+      target.style.setProperty('--page-reveal-delay', `${Math.max(0, Math.round(delay * 1.25))}ms`);
+    });
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      targets.forEach((target) => target.classList.add('is-page-visible'));
+      cleanupPageMotion = null;
+      return;
+    }
+
+    targets.forEach((target) => target.classList.remove('is-page-visible'));
+
+    const pendingFrames: number[] = [];
+    const revealAfterPaint = (target: Element) => {
+      const firstFrame = window.requestAnimationFrame(() => {
+        const secondFrame = window.requestAnimationFrame(() => target.classList.add('is-page-visible'));
+        pendingFrames.push(secondFrame);
+      });
+      pendingFrames.push(firstFrame);
+    };
+
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        currentObserver.unobserve(entry.target);
+        revealAfterPaint(entry.target);
+      });
+    }, { rootMargin: '0px 0px -4% 0px', threshold: 0.08 });
+
+    targets.forEach((target) => observer.observe(target));
+    cleanupPageMotion = () => {
+      observer.disconnect();
+      pendingFrames.forEach((frame) => window.cancelAnimationFrame(frame));
+    };
+  };
+
+  document.addEventListener('astro:page-load', initializePageMotion);
+  document.addEventListener('astro:before-swap', () => cleanupPageMotion?.());
+  initializePageMotion();
+</script>

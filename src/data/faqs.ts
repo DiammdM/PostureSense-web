@@ -41,7 +41,7 @@ export const faqs = [
   },
   {
     question: 'Does Posturely require an internet connection?',
-    answer: 'Posture detection itself is performed on the device. TODO: Confirm whether first launch, purchase verification, account-free entitlement checks, or any other app functions require a connection before publishing this answer as final.',
+    answer: 'Posture detection itself is performed on the device. Downloading or updating the app and using App Store purchase features require an internet connection.',
   },
   {
     question: 'What posture changes can Posturely detect?',

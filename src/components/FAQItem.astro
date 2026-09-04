@@ -2,13 +2,14 @@
 interface Props {
   question: string;
   answer: string;
+  open?: boolean;
 }
 
-const { question, answer } = Astro.props;
+const { question, answer, open = false } = Astro.props;
 ---
 
-<details class="faq-item">
-  <summary>{question}<span aria-hidden="true">+</span></summary>
+<details class="faq-item" {open}>
+  <summary>{question}<span aria-hidden="true"></span></summary>
   <p>{answer}</p>
 </details>
 
@@ -27,8 +28,8 @@ const { question, answer } = Astro.props;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: 1.4rem 0;
-    font-size: clamp(1rem, 2vw, 1.14rem);
+    padding: 1.45rem .35rem;
+    font-size: clamp(1rem, 1.8vw, 1.12rem);
     font-weight: 680;
     list-style: none;
   }
@@ -38,19 +39,41 @@ const { question, answer } = Astro.props;
   }
 
   summary span {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 50%;
     color: var(--text);
-    font-size: 1.35rem;
-    font-weight: 400;
-    transition: transform 150ms ease;
+    font-size: 1.15rem;
+    font-weight: 420;
+    line-height: 1;
+    transition: border-color 150ms ease, background 150ms ease;
   }
 
+  summary span::before { content: '+'; }
+
   details[open] summary span {
-    transform: rotate(45deg);
+    border-color: #688f0a;
+    background: var(--accent);
+    color: var(--accent-ink);
   }
+
+  details[open] summary span::before { content: '−'; }
 
   p {
     max-width: 760px;
-    margin: -0.35rem 0 1.5rem;
+    margin: -.2rem .35rem 1.45rem;
+    border-left: 3px solid #7cad0b;
+    padding: .1rem 0 .1rem 1.2rem;
     color: var(--muted);
+    line-height: 1.8;
   }
+
+  .faq-item[open] p { animation: answer-in 260ms cubic-bezier(.22,1,.36,1) both; }
+  @keyframes answer-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+  @media (prefers-reduced-motion: reduce) { .faq-item[open] p { animation: none; } }
 </style>

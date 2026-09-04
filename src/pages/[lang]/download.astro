@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DownloadGuide from '../../components/DownloadGuide.astro';
+export function getStaticPaths() { return ['zh', 'ja'].map((lang) => ({ params: { lang }, props: { lang } })); }
+interface Props { lang: 'zh' | 'ja' }
+const { lang } = Astro.props;
+const metadata = {
+  zh: { title: '下载 Posturely — iPhone 与 iPad', description: '在 App Store 搜索 Posturely，并通过应用图标确认正确的应用。' },
+  ja: { title: 'Posturely をダウンロード — iPhone・iPad', description: 'App Store で Posturely を検索し、アプリアイコンから正しいアプリをご確認ください。' },
+}[lang];
+---
+<BaseLayout title={metadata.title} description={metadata.description} canonical={`/${lang}/download/`}>
+  <DownloadGuide />
+</BaseLayout>

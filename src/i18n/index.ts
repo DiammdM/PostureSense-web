@@ -31,7 +31,7 @@ export function localizedPath(pathname: string, locale: Locale): string {
 
 export const common = {
   en: {
-    nav: ['Home', 'Features', 'How it works', 'Privacy', 'FAQ', 'Blog', 'Support'],
+    nav: ['Home', 'Features', 'How it works', 'Privacy', 'FAQ', 'Support'],
     downloadSmall: 'Download on the',
     appStore: 'App Store',
     footerLine: 'An on-device posture reminder app for iPhone and iPad.',
@@ -43,7 +43,7 @@ export const common = {
     ctaDescription: 'Use Posturely while studying, reading, or working and receive a reminder when your posture noticeably changes.',
   },
   zh: {
-    nav: ['首页', '功能', '工作原理', '隐私', '常见问题', '博客', '支持'],
+    nav: ['首页', '功能', '工作原理', '隐私', '常见问题', '支持'],
     downloadSmall: '下载自',
     appStore: 'App Store',
     footerLine: '适用于 iPhone 和 iPad 的本地坐姿提醒 App。',
@@ -55,7 +55,7 @@ export const common = {
     ctaDescription: '学习、阅读或办公时使用 Posturely，在坐姿发生明显变化时获得提醒。',
   },
   ja: {
-    nav: ['ホーム', '機能', '使い方', 'プライバシー', 'よくある質問', 'ブログ', 'サポート'],
+    nav: ['ホーム', '機能', '使い方', 'プライバシー', 'よくある質問', 'サポート'],
     downloadSmall: 'ダウンロード',
     appStore: 'App Store',
     footerLine: 'iPhone と iPad のためのオンデバイス姿勢リマインダー。',

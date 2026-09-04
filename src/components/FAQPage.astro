@@ -1,0 +1,288 @@
+---
+import FAQItem from './FAQItem.astro';
+import { getLocaleFromPath, localizedPath, type Locale } from '../i18n';
+
+interface Props {
+  items: ReadonlyArray<readonly [string, string]>;
+}
+
+const { items } = Astro.props;
+const locale = getLocaleFromPath(Astro.url.pathname);
+
+const copy = {
+  en: {
+    eyebrow: 'Frequently asked questions',
+    title: ['Clear answers about', 'Posturely.'],
+    intro: 'From device placement and posture detection to privacy and permissions, find the answer you need.',
+    quick: 'Quick overview',
+    facts: ['Camera used only during sessions', 'Frames processed on your device', 'Permission can be turned off anytime'],
+    groups: [
+      ['Getting started', 'Setup and everyday use'],
+      ['Detection & reminders', 'What Posturely notices'],
+      ['Privacy & permissions', 'How camera frames are handled'],
+      ['Devices & connection', 'Compatibility and connectivity'],
+    ],
+    supportTitle: 'Still looking for an answer?',
+    supportText: 'Visit support and tell us what you need help with.',
+    supportLink: 'Contact support',
+  },
+  zh: {
+    eyebrow: '常见问题',
+    title: ['关于 Posturely，', '先从最常问的开始。'],
+    intro: '从设备摆放、坐姿检测到隐私权限，快速找到清楚的答案。',
+    quick: '快速了解',
+    facts: ['只在监督时使用摄像头', '画面仅在设备本地处理', '权限可随时关闭'],
+    groups: [
+      ['开始使用', '了解基本使用方式与摆放建议'],
+      ['检测与提醒', '关于坐姿检测与提醒设置'],
+      ['隐私与权限', '摄像头画面与权限如何处理'],
+      ['设备与网络', '支持的设备与连接说明'],
+    ],
+    supportTitle: '没有找到答案？',
+    supportText: '前往支持页面，把你遇到的问题告诉我们。',
+    supportLink: '联系支持',
+  },
+  ja: {
+    eyebrow: 'よくある質問',
+    title: ['Posturely について、', 'よくある質問から。'],
+    intro: '端末の置き方、姿勢検出、プライバシー、権限について、必要な回答をすぐに確認できます。',
+    quick: 'すぐにわかること',
+    facts: ['カメラはセッション中のみ使用', '映像は端末上で処理', '権限はいつでも無効にできる'],
+    groups: [
+      ['はじめに', '設定と日常での使い方'],
+      ['検出と通知', 'Posturely が確認する変化'],
+      ['プライバシーと権限', 'カメラ映像の取り扱い'],
+      ['端末と接続', '対応端末と通信について'],
+    ],
+    supportTitle: '回答が見つかりませんか？',
+    supportText: 'サポートページから、お困りの内容をお知らせください。',
+    supportLink: 'サポートへ',
+  },
+} as const satisfies Record<Locale, object>;
+
+const t = copy[locale];
+const groupItemIndexes = [
+  [0, 3, 4, 8, 9],
+  [1, 5, 11],
+  [2, 6],
+  [7, 10],
+] as const;
+
+const groups = t.groups.map(([title, description], index) => ({
+  id: `faq-group-${index + 1}`,
+  title,
+  description,
+  items: groupItemIndexes[index].map((itemIndex) => items[itemIndex]).filter(Boolean),
+}));
+---
+
+<article class:list={['faq-page', `lang-${locale}`]} data-faq-page>
+  <section class="faq-hero" aria-labelledby="faq-page-title">
+    <div class="faq-container faq-hero-grid">
+      <div class="faq-hero-copy">
+        <p class="eyebrow" data-page-reveal>{t.eyebrow}</p>
+        <h1 id="faq-page-title" data-page-reveal data-page-delay="80">
+          <span>{t.title[0]}</span>
+          <span>{t.title[1]}</span>
+        </h1>
+        <p class="faq-intro" data-page-reveal data-page-delay="160">{t.intro}</p>
+      </div>
+
+      <div class="faq-hero-art" aria-hidden="true">
+        <img src="/images/faq-hero-illustration-v2.png" alt="" width="1448" height="1086" loading="eager" decoding="async" data-page-reveal="scale" data-page-delay="100" />
+      </div>
+    </div>
+  </section>
+
+  <section class="quick-facts" aria-label={t.quick}>
+    <div class="faq-container quick-facts-grid">
+      <p data-page-reveal>{t.quick}</p>
+      <div class="quick-fact" data-page-reveal data-page-delay="80">
+        <span class="fact-icon camera-icon" aria-hidden="true"><i></i></span>
+        <strong>{t.facts[0]}</strong>
+      </div>
+      <div class="signal-line" aria-hidden="true" data-page-reveal="line" data-page-delay="150"></div>
+      <div class="quick-fact" data-page-reveal data-page-delay="220">
+        <span class="fact-icon device-icon" aria-hidden="true"><i></i></span>
+        <strong>{t.facts[1]}</strong>
+      </div>
+      <div class="signal-line" aria-hidden="true" data-page-reveal="line" data-page-delay="290"></div>
+      <div class="quick-fact" data-page-reveal data-page-delay="360">
+        <span class="fact-icon lock-icon" aria-hidden="true"><i></i></span>
+        <strong>{t.facts[2]}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-content">
+    <div class="faq-container faq-content-grid">
+      <aside class="faq-index" aria-label={t.eyebrow}>
+        <div class="faq-index-inner" data-page-reveal>
+          {groups.map((group, index) => (
+            <a href={`#${group.id}`} aria-current={index === 0 ? 'true' : undefined} data-faq-index={group.id}>
+              <span class="index-mark" aria-hidden="true"></span>
+              <span><strong>{group.title}</strong><small>{group.description}</small></span>
+            </a>
+          ))}
+        </div>
+      </aside>
+
+      <div class="faq-groups" data-faq-groups>
+        {groups.map((group, groupIndex) => (
+          <section id={group.id} class="faq-group" data-faq-group={group.id} data-page-reveal>
+            <header>
+              <p>{group.title}</p>
+              <span>{String(groupIndex + 1).padStart(2, '0')}</span>
+            </header>
+            <div>
+              {group.items.map(([question, answer], itemIndex) => (
+                <FAQItem {question} {answer} open={groupIndex === 2 && itemIndex === 0} />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-support">
+    <div class="faq-container faq-support-inner" data-page-reveal="scale">
+      <span class="support-bubble" aria-hidden="true"><i></i><i></i><i></i></span>
+      <div>
+        <h2>{t.supportTitle}</h2>
+        <p>{t.supportText}</p>
+      </div>
+      <a href={localizedPath('/support/', locale)}>{t.supportLink}<span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</article>
+
+<style>
+  .faq-page { background: var(--paper); color: var(--text); }
+  .faq-container { width: min(calc(100% - 48px), 1180px); margin-inline: auto; }
+  .faq-hero { overflow: clip; border-bottom: 1px solid var(--border); padding: clamp(3.5rem, 7vw, 6.5rem) 0 0; }
+  .faq-hero-grid { display: grid; min-height: 430px; grid-template-columns: minmax(0, 1.12fr) minmax(390px, .88fr); align-items: end; gap: clamp(2rem, 4vw, 4rem); }
+  .faq-hero-copy { align-self: center; padding-bottom: 3rem; }
+  .faq-hero h1 { margin: 0; font-family: var(--font-display); font-size: clamp(3.25rem, 5vw, 4.75rem); font-weight: 400; letter-spacing: -.065em; line-height: 1.04; }
+  .faq-hero h1 span { display: block; white-space: nowrap; }
+  .lang-en .faq-hero h1 { font-size: clamp(3.05rem, 4.8vw, 4.6rem); letter-spacing: -.06em; }
+  .lang-ja .faq-hero h1 { font-size: clamp(3rem, 4.55vw, 4.35rem); letter-spacing: -.075em; }
+  .faq-intro { max-width: 610px; margin: 1.45rem 0 0; color: var(--muted); font-size: clamp(1rem, 1.5vw, 1.1rem); line-height: 1.8; }
+  .faq-hero-art { align-self: end; transform: translate(28px, -54px); }
+  .faq-hero-art img { display: block; width: 100%; height: auto; }
+  .quick-facts { background: var(--dark); color: var(--paper); }
+  .quick-facts-grid { display: grid; min-height: 174px; grid-template-columns: .62fr 1fr minmax(50px,.55fr) 1fr minmax(50px,.55fr) 1fr; align-items: center; gap: 1rem; }
+  .quick-facts-grid > p { margin: 0; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .12em; }
+  .quick-fact { display: grid; justify-items: center; gap: .85rem; text-align: center; }
+  .quick-fact strong { font-size: .86rem; font-weight: 620; line-height: 1.45; }
+  .fact-icon { position: relative; display: grid; width: 56px; height: 56px; place-items: center; border: 1px solid rgba(248,245,239,.45); border-radius: 50%; color: var(--accent); }
+  .signal-line { height: 1px; background: var(--accent); opacity: .82; }
+  .signal-line::before, .signal-line::after { display: block; width: 5px; height: 5px; margin-top: -2px; border-radius: 50%; background: var(--accent); content: ''; }
+  .signal-line::after { margin-top: -5px; margin-left: auto; }
+  .camera-icon i { width: 24px; height: 17px; border: 2px solid currentColor; border-radius: 4px; }
+  .camera-icon i::before { display: block; width: 7px; height: 7px; margin: 3px auto; border: 2px solid currentColor; border-radius: 50%; content: ''; }
+  .camera-icon i::after { position: absolute; top: 17px; left: 19px; width: 8px; height: 3px; border: 2px solid currentColor; border-bottom: 0; border-radius: 2px 2px 0 0; content: ''; }
+  .device-icon i { width: 18px; height: 28px; border: 2px solid currentColor; border-radius: 4px; }
+  .device-icon i::after { display: block; width: 3px; height: 3px; margin: 20px auto 0; border-radius: 50%; background: currentColor; content: ''; }
+  .lock-icon i { width: 21px; height: 18px; border: 2px solid currentColor; border-radius: 3px; }
+  .lock-icon i::before { position: absolute; top: 14px; left: 20px; width: 14px; height: 15px; border: 2px solid currentColor; border-bottom: 0; border-radius: 8px 8px 0 0; content: ''; }
+  .faq-content { padding: clamp(4.5rem, 8vw, 7rem) 0 clamp(5rem, 9vw, 8rem); }
+  .faq-content-grid { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: clamp(3rem, 7vw, 7rem); align-items: start; }
+  .faq-index { position: sticky; top: 110px; }
+  .faq-index-inner { display: grid; border-left: 1px solid var(--border); }
+  .faq-index a { display: grid; min-height: 86px; grid-template-columns: 4px 1fr; align-items: center; gap: 1.2rem; margin-left: -2px; color: var(--muted); }
+  .faq-index a:hover, .faq-index a[aria-current='true'] { color: var(--text); }
+  .index-mark { width: 4px; height: 0; background: #76aa00; transition: height 200ms ease; }
+  .faq-index a[aria-current='true'] .index-mark { height: 54px; }
+  .faq-index strong, .faq-index small { display: block; }
+  .faq-index strong { font-size: .94rem; }
+  .faq-index small { margin-top: .28rem; color: var(--subtle); font-size: .72rem; line-height: 1.45; }
+  .faq-group { scroll-margin-top: 112px; }
+  .faq-group + .faq-group { margin-top: 4.5rem; }
+  .faq-group > header { display: flex; align-items: end; justify-content: space-between; gap: 2rem; border-bottom: 1px solid var(--text); padding-bottom: .75rem; }
+  .faq-group > header p { margin: 0; font-family: var(--font-display); font-size: clamp(1.65rem, 3vw, 2.2rem); line-height: 1.2; }
+  .faq-group > header span { color: var(--accent-text); font: 700 .72rem/1 ui-monospace, monospace; }
+  .faq-support { padding: 0 0 2.25rem; }
+  .faq-support-inner { display: grid; min-height: 176px; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.35rem; border-radius: 5px; background: var(--dark); color: var(--paper); padding: clamp(1.75rem, 4vw, 3rem); }
+  .support-bubble { display: flex; width: 54px; height: 54px; align-items: center; justify-content: center; gap: 3px; border: 2px solid var(--accent); border-radius: 50%; }
+  .support-bubble::after { position: absolute; width: 10px; height: 10px; margin: 43px 0 0 -34px; border-bottom: 2px solid var(--accent); transform: rotate(-30deg); content: ''; }
+  .support-bubble i { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+  .faq-support h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: -.035em; }
+  .faq-support p { margin: .25rem 0 0; color: rgba(248,245,239,.58); font-size: .9rem; }
+  .faq-support a { display: flex; min-height: 48px; align-items: center; gap: 2rem; border-radius: 4px; background: var(--accent); color: var(--accent-ink); padding: .7rem 1.2rem; font-size: .84rem; font-weight: 760; transition: transform 170ms ease, background 170ms ease; }
+  .faq-support a:hover { background: #c5ff43; transform: translateY(-2px); }
+
+  @media (max-width: 920px) {
+    .faq-hero-grid { min-height: 0; grid-template-columns: 1fr; }
+    .faq-hero-copy { padding-bottom: 0; }
+    .faq-hero-art { width: min(100%, 610px); margin-inline: auto; transform: none; }
+    .quick-facts-grid { grid-template-columns: 1fr 1fr 1fr; padding: 2.2rem 0; }
+    .quick-facts-grid > p { grid-column: 1 / -1; }
+    .signal-line { display: none; }
+    .faq-content-grid { grid-template-columns: 190px minmax(0,1fr); gap: 2.5rem; }
+  }
+
+  @media (max-width: 680px) {
+    .faq-container { width: min(calc(100% - 32px), 1180px); }
+    .faq-hero { padding-top: 3.3rem; }
+    .faq-hero h1, .lang-en .faq-hero h1, .lang-ja .faq-hero h1 { font-size: clamp(2.55rem, 12vw, 3.8rem); }
+    .faq-hero h1 span { white-space: normal; }
+    .faq-hero-copy { text-align: left; }
+    .faq-hero-art { margin-top: .5rem; }
+    .quick-facts-grid { grid-template-columns: 1fr; gap: 1.6rem; }
+    .quick-facts-grid > p { text-align: center; }
+    .quick-fact { grid-template-columns: 48px 1fr; align-items: center; justify-items: start; text-align: left; }
+    .fact-icon { width: 48px; height: 48px; }
+    .lock-icon i::before { top: 11px; left: 16px; }
+    .camera-icon i::after { top: 13px; left: 15px; }
+    .faq-content { padding-top: 3.5rem; }
+    .faq-content-grid { grid-template-columns: 1fr; }
+    .faq-index { display: none; }
+    .faq-group + .faq-group { margin-top: 3.5rem; }
+    .faq-support { padding-bottom: 1rem; }
+    .faq-support-inner { grid-template-columns: auto 1fr; border-radius: 4px; }
+    .faq-support a { grid-column: 1 / -1; justify-content: space-between; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .index-mark, .faq-support a { transition: none; }
+  }
+</style>
+
+<script>
+  let faqSectionObserver: IntersectionObserver | null = null;
+
+  const setupFaqPage = () => {
+    document.querySelectorAll<HTMLElement>('[data-faq-page]').forEach((page) => {
+      if (page.dataset.ready === 'true') return;
+      page.dataset.ready = 'true';
+
+      const groups = [...page.querySelectorAll<HTMLElement>('[data-faq-group]')];
+      const indexes = [...page.querySelectorAll<HTMLAnchorElement>('[data-faq-index]')];
+
+      const setActive = (id: string) => {
+        indexes.forEach((link) => {
+          const target = link.dataset.faqIndex;
+          if (target === id) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
+      };
+
+      indexes.forEach((link) => link.addEventListener('click', () => {
+        const id = link.dataset.faqIndex;
+        if (id) setActive(id);
+      }));
+
+      faqSectionObserver?.disconnect();
+      faqSectionObserver = new IntersectionObserver((entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        const id = visible[0]?.target.id;
+        if (id) setActive(id);
+      }, { rootMargin: '-18% 0px -65% 0px', threshold: 0 });
+      groups.forEach((group) => faqSectionObserver?.observe(group));
+    });
+  };
+
+  document.addEventListener('astro:page-load', setupFaqPage);
+  setupFaqPage();
+</script>

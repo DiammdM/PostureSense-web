@@ -1,0 +1,443 @@
+---
+import { getLocaleFromPath, type Locale } from '../i18n';
+
+type PolicySection = { title: string; paragraphs: string[] };
+type PrivacyCopy = {
+  eyebrow: string;
+  heroLines: [string, string];
+  heroIntro: string;
+  localLabel: string;
+  summaryTitle: string;
+  summary: { number: string; title: string; body: string; icon: 'eye' | 'chip' | 'switch' }[];
+  updatedLabel: string;
+  updatedDate: string;
+  sections: PolicySection[];
+  flow: [string, string, string];
+  flowNotes: [string, string, string];
+  flowCaption: string;
+  localRows: [string, string];
+  localCaption: string;
+};
+
+const locale = getLocaleFromPath(Astro.url.pathname);
+
+const content: Record<Locale, PrivacyCopy> = {
+  zh: {
+    eyebrow: '隐私政策',
+    heroLines: ['画面留在', '设备里。'],
+    heroIntro: '坐姿检测在 iPhone 或 iPad 本地完成。',
+    localLabel: '本地处理',
+    summaryTitle: '隐私，先说最重要的。',
+    summary: [
+      { number: '01', title: '只在监督时使用摄像头', body: '不监督时，摄像头不会被访问。', icon: 'eye' },
+      { number: '02', title: '在设备本地分析坐姿', body: '坐姿检测画面只在设备里处理。', icon: 'chip' },
+      { number: '03', title: '你可以随时关闭权限', body: '可在系统设置中关闭，功能将立即停止。', icon: 'switch' },
+    ],
+    updatedLabel: '最后更新：',
+    updatedDate: '2026 年 8 月 31 日',
+    sections: [
+      { title: '1. 关于 Posturely', paragraphs: ['Posturely 是一款 iOS 与 iPadOS App，用于在学习、阅读、写作业和桌面办公时帮助用户关注可见的上半身坐姿变化。', 'Posturely 不是医疗产品，不诊断、治疗、预防或测量医疗状况，也不提供医疗建议。'] },
+      { title: '2. 摄像头权限', paragraphs: ['Posturely 请求摄像头权限，以便在监督期间进行实时坐姿检测。'] },
+      { title: '3. 设备本地处理', paragraphs: ['Posturely 在 iPhone 或 iPad 本地分析可见的上半身坐姿，并根据低头、前倾、身体倾斜或其他明显变化提供提醒。'] },
+      { title: '4. 权限管理', paragraphs: ['你可以在 iOS 或 iPadOS“设置”中管理摄像头权限。关闭摄像头权限后，需要实时坐姿检测的功能将无法运行。'] },
+      { title: '5. 联系方式', paragraphs: ['如对本政策有疑问，请通过支持页面提供的邮箱联系我们。'] },
+    ],
+    flow: ['摄像头画面', '本地分析', '坐姿提醒'],
+    flowNotes: ['仅在监督时获取', '在设备本地完成', '仅在设备上通知'],
+    flowCaption: '用于坐姿检测的摄像头画面在设备本地处理，不会上传到任何服务器。',
+    localRows: ['仅在设备内分析', '画面不会上传服务器'],
+    localCaption: '用于分析的画面只在设备本地处理，不会被上传。',
+  },
+  en: {
+    eyebrow: 'Privacy policy',
+    heroLines: ['Camera frames stay', 'on your device.'],
+    heroIntro: 'Posture detection is completed locally on your iPhone or iPad.',
+    localLabel: 'On-device processing',
+    summaryTitle: 'Privacy, in plain language.',
+    summary: [
+      { number: '01', title: 'Camera access only during sessions', body: 'The camera is not accessed outside a session.', icon: 'eye' },
+      { number: '02', title: 'Posture analysis stays on device', body: 'Frames used for detection are processed locally.', icon: 'chip' },
+      { number: '03', title: 'You control camera permission', body: 'Turn it off anytime in system settings.', icon: 'switch' },
+    ],
+    updatedLabel: 'Last updated:',
+    updatedDate: 'August 31, 2026',
+    sections: [
+      { title: '1. About Posturely', paragraphs: ['Posturely is an iOS and iPadOS app that helps users notice visible upper-body posture changes during studying, reading, homework, and desk work.', 'Posturely is not a medical product. It does not diagnose, treat, prevent, or measure medical conditions, and it does not provide medical advice.'] },
+      { title: '2. Camera access', paragraphs: ['Posturely requests camera access so it can perform real-time posture detection during an active monitoring session.'] },
+      { title: '3. On-device processing', paragraphs: ['Posturely analyzes visible upper-body posture locally on your iPhone or iPad and can remind you about noticeable changes.'] },
+      { title: '4. Permissions', paragraphs: ['You can manage camera access in iOS or iPadOS Settings. Features that need real-time posture detection cannot operate when access is disabled.'] },
+      { title: '5. Contact', paragraphs: ['Questions about this policy can be sent to the support email below.'] },
+    ],
+    flow: ['Camera frames', 'Local analysis', 'Posture reminder'],
+    flowNotes: ['Captured only in a session', 'Completed on device', 'Delivered on device'],
+    flowCaption: 'Camera frames used for posture detection are processed locally and are not uploaded to any server.',
+    localRows: ['Analyzed only on device', 'Frames are not uploaded'],
+    localCaption: 'Frames used for analysis are processed locally on your device.',
+  },
+  ja: {
+    eyebrow: 'プライバシーポリシー',
+    heroLines: ['映像はデバイスの', '中だけ。'],
+    heroIntro: '姿勢検出は iPhone または iPad 上で完結します。',
+    localLabel: 'デバイス上で処理',
+    summaryTitle: '大切なことを、最初に。',
+    summary: [
+      { number: '01', title: '監督中のみカメラを使用', body: '監督外ではカメラにアクセスしません。', icon: 'eye' },
+      { number: '02', title: 'デバイス上で姿勢を分析', body: '検出用の映像は端末内で処理します。', icon: 'chip' },
+      { number: '03', title: '権限はいつでも変更可能', body: 'システム設定から無効にできます。', icon: 'switch' },
+    ],
+    updatedLabel: '最終更新：',
+    updatedDate: '2026年8月31日',
+    sections: [
+      { title: '1. Posturely について', paragraphs: ['Posturely は勉強、読書、宿題、デスクワーク中の上半身の変化への気づきを支える iOS・iPadOS アプリです。', '医療製品ではなく、診断、治療、予防、医療測定、医療助言を提供しません。'] },
+      { title: '2. カメラアクセス', paragraphs: ['アクティブな監督中のリアルタイム姿勢検出にカメラを使用します。'] },
+      { title: '3. デバイス上での処理', paragraphs: ['iPhone または iPad 上で見える上半身を分析し、目立つ姿勢の変化を通知に利用します。'] },
+      { title: '4. 権限管理', paragraphs: ['iOS または iPadOS の設定でカメラ権限を管理できます。無効にするとリアルタイム姿勢検出は利用できません。'] },
+      { title: '5. お問い合わせ', paragraphs: ['本ポリシーへのご質問は、下記のサポートメールへお送りください。'] },
+    ],
+    flow: ['カメラ映像', '端末内で分析', '姿勢を通知'],
+    flowNotes: ['監督中のみ取得', 'デバイス上で完結', 'デバイス上で通知'],
+    flowCaption: '姿勢検出に使う映像はデバイス上で処理され、どのサーバーにもアップロードされません。',
+    localRows: ['デバイス内だけで分析', '映像をアップロードしない'],
+    localCaption: '分析に使う映像はデバイス上で処理されます。',
+  },
+};
+
+const copy = content[locale];
+---
+
+<article class={`privacy-page lang-${locale}`}>
+  <section class="privacy-hero">
+    <div class="privacy-container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow" data-page-reveal>{copy.eyebrow}</p>
+        <h1 data-page-reveal data-page-delay="80"><span>{copy.heroLines[0]}</span><span>{copy.heroLines[1]}</span></h1>
+        <p class="hero-intro" data-page-reveal data-page-delay="160">{copy.heroIntro}</p>
+      </div>
+      <div class="hero-diagram" aria-hidden="true" data-page-reveal="scale" data-page-delay="100">
+        <svg viewBox="0 0 620 360" fill="none">
+          <g class="device-outline"><rect x="58" y="113" width="74" height="128" rx="13"/><path d="M84 122h22"/><circle cx="95" cy="230" r="2"/><rect x="480" y="116" width="112" height="116" rx="12"/><rect x="489" y="125" width="94" height="98" rx="7"/><circle cx="536" cy="219" r="2"/></g>
+          <g class="privacy-rings"><circle cx="310" cy="177" r="55"/><circle cx="310" cy="177" r="82"/><circle cx="310" cy="177" r="110"/><circle cx="310" cy="177" r="137"/></g>
+          <path class="link-line" d="M132 177H254M366 177h122"/>
+          <circle class="link-dot" cx="254" cy="177" r="4"/><circle class="link-dot" cx="366" cy="177" r="4"/>
+          <g class="hero-lock"><rect x="283" y="165" width="54" height="48" rx="8"/><path d="M294 165v-13a16 16 0 0 1 32 0v13"/><circle cx="310" cy="184" r="4"/><path d="M310 188v9"/></g>
+        </svg>
+        <strong>{copy.localLabel}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="privacy-summary">
+    <div class="privacy-container">
+      <h2 data-page-reveal>{copy.summaryTitle}</h2>
+      <div class="summary-grid">
+        {copy.summary.map((item, index) => (
+          <article class="summary-card" data-page-reveal data-page-delay={index * 70}>
+            <span class="summary-number">{item.number}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+            <span class={`summary-icon icon-${item.icon}`} aria-hidden="true">
+              {item.icon === 'eye' && <svg viewBox="0 0 48 48" fill="none"><circle class="eye-ring" cx="24" cy="24" r="22"/><path d="M8 24s6-8 16-8 16 8 16 8-6 8-16 8S8 24 8 24Z"/><circle class="eye-pupil" cx="24" cy="24" r="4"/></svg>}
+              {item.icon === 'chip' && <svg viewBox="0 0 48 48" fill="none"><rect x="10" y="10" width="28" height="28" rx="4"/><path d="M16 10V5m8 5V5m8 5V5M16 43v-5m8 5v-5m8 5v-5M10 16H5m5 8H5m5 8H5m38-16h-5m5 8h-5m5 8h-5"/><rect x="18" y="22" width="12" height="10" rx="2"/><path d="M20 22v-3a4 4 0 0 1 8 0v3"/></svg>}
+              {item.icon === 'switch' && <span><i></i></span>}
+            </span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="policy-section">
+    <div class="privacy-container policy-grid">
+      <aside class="policy-nav">
+        <div class="updated" data-page-reveal>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4m8-4v4M4 10h16m-12 3h3m2 0h3"/></svg>
+          <p><small>{copy.updatedLabel}</small>{copy.updatedDate}</p>
+        </div>
+        <nav aria-label={copy.eyebrow} data-page-reveal data-page-delay="70">
+          {copy.sections.map((section, index) => <a href={`#privacy-section-${index + 1}`}>{section.title}</a>)}
+        </nav>
+      </aside>
+
+      <div class="policy-content">
+        {copy.sections.map((section, index) => (
+          <section id={`privacy-section-${index + 1}`} data-page-reveal>
+            <h2>{section.title}</h2>
+            {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+
+            {index === 1 && (
+              <>
+                <div class="flow-panel" aria-hidden="true">
+                  {copy.flow.map((label, flowIndex) => (
+                    <Fragment>
+                      <div class="flow-step">
+                        <span class="flow-index">{flowIndex + 1}</span>
+                        <span class="flow-icon">
+                          {flowIndex === 0 && <svg viewBox="0 0 54 54" fill="none"><rect x="8" y="11" width="38" height="31" rx="6"/><circle cx="27" cy="27" r="9"/><path d="M20 11l3-5h8l3 5"/></svg>}
+                          {flowIndex === 1 && <svg viewBox="0 0 54 54" fill="none"><rect x="11" y="11" width="32" height="32" rx="4"/><path d="M18 11V5m9 6V5m9 6V5M18 49v-6m9 6v-6m9 6v-6M11 18H5m6 9H5m6 9H5m44-18h-6m6 9h-6m6 9h-6"/><rect x="20" y="24" width="14" height="12" rx="2"/><path d="M22 24v-4a5 5 0 0 1 10 0v4"/></svg>}
+                          {flowIndex === 2 && <svg viewBox="0 0 54 54" fill="none"><path d="M11 40h32l-4-7V21a12 12 0 0 0-24 0v12l-4 7Z"/><path d="M21 45a8 8 0 0 0 12 0"/></svg>}
+                        </span>
+                        <strong>{label}</strong><small>{copy.flowNotes[flowIndex]}</small>
+                      </div>
+                      {flowIndex < 2 && <span class="flow-arrow">······→</span>}
+                    </Fragment>
+                  ))}
+                </div>
+                <p class="panel-caption">{copy.flowCaption}</p>
+              </>
+            )}
+
+            {index === 2 && (
+              <>
+                <div class="local-panel" aria-hidden="true">
+                  <div class="local-phone"><svg viewBox="0 0 112 190" fill="none"><rect x="13" y="5" width="86" height="180" rx="15"/><path d="M42 14h28"/><g><rect x="38" y="92" width="36" height="31" rx="5"/><path d="M44 92V81a12 12 0 0 1 24 0v11"/></g></svg></div>
+                  <div class="local-rows">
+                    <div>
+                      <svg class="local-row-icon chip-icon" viewBox="0 0 52 52"><rect x="10" y="10" width="32" height="32" rx="4"/><path d="M18 10V4m8 6V4m8 6V4M18 48v-6m8 6v-6m8 6v-6M10 18H4m6 8H4m6 8H4m44-16h-6m6 8h-6m6 8h-6"/><rect x="19" y="24" width="14" height="12" rx="2"/><path d="M21 24v-4a5 5 0 0 1 10 0v4"/></svg>
+                      <strong>{copy.localRows[0]}</strong>
+                    </div>
+                    <div>
+                      <svg class="local-row-icon" viewBox="0 0 52 52"><path d="M14 37h25a8 8 0 0 0 .6-16 13 13 0 0 0-24-4A10 10 0 0 0 14 37Z"/><path d="m8 8 36 36"/></svg>
+                      <strong>{copy.localRows[1]}</strong>
+                    </div>
+                  </div>
+                </div>
+                <p class="panel-caption">{copy.localCaption}</p>
+              </>
+            )}
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</article>
+
+<script>
+  const setupPrivacyNavigation = () => {
+    const nav = document.querySelector<HTMLElement>('.policy-nav nav');
+    if (!nav || nav.dataset.ready === 'true') return;
+
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>('a[href^="#privacy-section-"]'));
+    const sections = links
+      .map((link) => document.querySelector<HTMLElement>(link.hash))
+      .filter((section): section is HTMLElement => section !== null);
+
+    if (!links.length || !sections.length) return;
+    nav.dataset.ready = 'true';
+
+    const setCurrent = (sectionId: string) => {
+      links.forEach((link) => {
+        const isCurrent = link.hash === `#${sectionId}`;
+        link.classList.toggle('is-current', isCurrent);
+        if (isCurrent) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    };
+
+    let requestedId: string | null = null;
+
+    const updateFromScroll = () => {
+      if (requestedId) {
+        setCurrent(requestedId);
+        return;
+      }
+
+      const header = document.querySelector<HTMLElement>('.site-header');
+      const marker = (header?.getBoundingClientRect().height ?? 0) + 40;
+      let current = sections[0];
+
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= marker) current = section;
+        else break;
+      }
+
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+        current = sections.at(-1) ?? current;
+      }
+
+      setCurrent(current.id);
+    };
+
+    let frame = 0;
+    const requestUpdate = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        updateFromScroll();
+        frame = 0;
+      });
+    };
+
+    links.forEach((link) => link.addEventListener('click', () => {
+      requestedId = link.hash.slice(1);
+      setCurrent(requestedId);
+    }));
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    window.addEventListener('hashchange', () => {
+      const hashId = window.location.hash.slice(1);
+      requestedId = sections.some((section) => section.id === hashId) ? hashId : null;
+      requestUpdate();
+    });
+
+    const releaseRequestedSection = () => {
+      requestedId = null;
+      requestUpdate();
+    };
+    window.addEventListener('wheel', releaseRequestedSection, { passive: true });
+    window.addEventListener('touchstart', releaseRequestedSection, { passive: true });
+    window.addEventListener('keydown', (event) => {
+      if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) {
+        releaseRequestedSection();
+      }
+    });
+
+    const initialId = window.location.hash.slice(1);
+    const initialSection = sections.find((section) => section.id === initialId);
+    if (initialSection) {
+      requestedId = initialId;
+      setCurrent(initialId);
+      window.requestAnimationFrame(() => {
+        initialSection.scrollIntoView({ block: 'start' });
+        setCurrent(initialId);
+      });
+    } else updateFromScroll();
+  };
+
+  setupPrivacyNavigation();
+  document.addEventListener('astro:page-load', setupPrivacyNavigation);
+</script>
+
+<style>
+  .privacy-page { overflow: clip; background: var(--paper-soft); }
+  .privacy-container { width: min(calc(100% - 48px), 1180px); margin-inline: auto; }
+  .privacy-hero { padding: clamp(3.4rem, 6vw, 5.3rem) 0 clamp(2.4rem, 4vw, 3.8rem); }
+  .hero-grid { display: grid; grid-template-columns: minmax(330px,.78fr) minmax(500px,1.22fr); align-items: center; gap: clamp(3rem,7vw,7rem); }
+  .hero-copy h1 { margin: 0; font-family: var(--font-display); font-size: clamp(4.3rem,6.4vw,6.35rem); font-weight: 400; letter-spacing: -.075em; line-height: .98; }
+  .hero-copy h1 span { display: block; white-space: nowrap; }
+  .lang-zh .hero-copy h1 { font-size: clamp(3.6rem,5.6vw,5.4rem); }
+  .lang-en .hero-copy h1 { font-size: clamp(3.15rem,4.3vw,3.9rem); letter-spacing: -.06em; line-height: 1.02; }
+  .lang-ja .hero-copy h1 { font-size: clamp(2.8rem,3.8vw,3.1rem); letter-spacing: -.07em; line-height: 1.08; }
+  .hero-intro { margin: 2rem 0 0; color: var(--muted); font-size: clamp(1rem,1.35vw,1.18rem); }
+  .hero-diagram { position: relative; min-height: 350px; overflow: hidden; border-radius: 22px; background: var(--dark); color: var(--accent); box-shadow: 0 20px 48px rgba(17,19,17,.08); }
+  .hero-diagram svg { width: 100%; height: 310px; padding: 18px 20px 0; }
+  .device-outline { stroke: rgba(248,245,239,.84); stroke-width: 2; }
+  .privacy-rings { stroke: rgba(184,255,25,.17); stroke-width: 1; }
+  .link-line { stroke: rgba(248,245,239,.76); stroke-width: 1.5; stroke-dasharray: 4 7; }
+  .link-dot { fill: var(--accent); }
+  .hero-lock { stroke: var(--accent); stroke-width: 3; }
+  .hero-diagram strong { position: absolute; bottom: 28px; left: 50%; color: #92c92e; font-size: .86rem; transform: translateX(-50%); }
+  :global(html.page-motion-ready) .hero-diagram .device-outline,
+  :global(html.page-motion-ready) .hero-diagram .privacy-rings,
+  :global(html.page-motion-ready) .hero-diagram .link-line,
+  :global(html.page-motion-ready) .hero-diagram .link-dot,
+  :global(html.page-motion-ready) .hero-diagram .hero-lock,
+  :global(html.page-motion-ready) .hero-diagram strong { opacity: 0; transition: opacity 520ms ease, transform 650ms cubic-bezier(.2,.65,.25,1), stroke-dashoffset 760ms cubic-bezier(.2,.65,.25,1); }
+  :global(html.page-motion-ready) .hero-diagram .device-outline { transform: translateX(-10px); }
+  :global(html.page-motion-ready) .hero-diagram .privacy-rings { transform: scale(.82); transform-box: fill-box; transform-origin: center; }
+  :global(html.page-motion-ready) .hero-diagram .link-line { stroke-dashoffset: 28; }
+  :global(html.page-motion-ready) .hero-diagram .link-dot,
+  :global(html.page-motion-ready) .hero-diagram .hero-lock { transform: scale(.7); transform-box: fill-box; transform-origin: center; }
+  :global(html.page-motion-ready) .hero-diagram.is-page-visible .device-outline { opacity: 1; transform: none; transition-delay: 180ms; }
+  :global(html.page-motion-ready) .hero-diagram.is-page-visible .privacy-rings { opacity: 1; transform: none; transition-delay: 260ms; }
+  :global(html.page-motion-ready) .hero-diagram.is-page-visible .link-line { opacity: 1; stroke-dashoffset: 0; transition-delay: 360ms; }
+  :global(html.page-motion-ready) .hero-diagram.is-page-visible .link-dot { opacity: 1; transform: none; transition-delay: 470ms; }
+  :global(html.page-motion-ready) .hero-diagram.is-page-visible .hero-lock { opacity: 1; transform: none; transition-delay: 520ms; }
+  :global(html.page-motion-ready) .hero-diagram.is-page-visible strong { opacity: 1; transition-delay: 620ms; }
+  .privacy-summary { padding: 0 0 2rem; }
+  .privacy-summary h2 { margin: 0 0 1.7rem; font-family: var(--font-display); font-size: clamp(2rem,3vw,2.8rem); font-weight: 400; letter-spacing: -.055em; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; }
+  .summary-card { position: relative; min-height: 210px; overflow: hidden; border: 1px solid var(--border); border-radius: 18px; background: rgba(255,255,255,.44); padding: 1.8rem 5.7rem 1.6rem 1.7rem; }
+  .summary-number { display: block; font-family: var(--font-display); font-size: 2.45rem; letter-spacing: -.06em; line-height: 1; }
+  .summary-card h3 { margin: 1rem 0 0; font-size: .97rem; letter-spacing: -.025em; }
+  .summary-card p { margin: .45rem 0 0; color: var(--subtle); font-size: .75rem; line-height: 1.55; }
+  .summary-icon { position: absolute; right: 1.35rem; bottom: 1.5rem; display: grid; width: 58px; height: 58px; place-items: center; border: 0; }
+  .summary-icon svg { width: 33px; fill: none; stroke: var(--text); stroke-width: 1.6; }
+  .icon-eye svg { width: 80%; }
+  .icon-eye svg .eye-ring { fill: none; stroke: var(--text); stroke-dasharray: 3 3; }
+  .icon-eye svg .eye-pupil { fill: #72a900; stroke: none; }
+  .icon-chip svg { width: 80%; }
+  .icon-chip svg rect:last-of-type,.icon-chip svg path:last-child { stroke: #72a900; }
+  .icon-switch > span { position: relative; display: block; width: 86%; height: 55%; border: 1px solid var(--border-strong); border-radius: 999px; transform: translateY(6px); }
+  .icon-switch i { position: absolute; top: 3px; right: 3px; width: auto; height: calc(100% - 6px); aspect-ratio: 1; border-radius: 50%; background: #72a900; }
+  .policy-section { padding: 0 0 clamp(4rem,7vw,6.5rem); }
+  .policy-grid { display: grid; grid-template-columns: 225px minmax(0,1fr); align-items: start; gap: clamp(3rem,6vw,6.2rem); border-top: 1px solid var(--border); padding-top: 2rem; }
+  .policy-nav { position: sticky; top: 110px; }
+  .updated { display: flex; gap: .75rem; border-bottom: 1px solid var(--border); padding: 0 .8rem 1.35rem; color: var(--muted); }
+  .updated > svg { flex: 0 0 auto; width: 17px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+  .updated p { margin: 0; font-size: .76rem; line-height: 1.55; }
+  .updated small { display: block; color: var(--subtle); font-size: .68rem; }
+  .policy-nav nav { display: grid; margin-top: 1rem; }
+  .policy-nav a { position: relative; padding: .85rem .8rem; color: #333833; font-size: .75rem; }
+  .policy-nav a.is-current::before { position: absolute; top: .65rem; bottom: .65rem; left: -1px; width: 3px; background: #72a900; content: ''; }
+  .policy-content > section { scroll-margin-top: 112px; border-bottom: 1px solid var(--border); padding: 0 0 2.1rem; margin-bottom: 2.1rem; }
+  .policy-content > section:last-child { margin-bottom: 0; }
+  .policy-content h2 { margin: 0 0 .7rem; font-family: var(--font-display); font-size: clamp(1.8rem,2.7vw,2.45rem); font-weight: 600; letter-spacing: -.045em; line-height: 1.1; }
+  .policy-content p { max-width: 830px; margin: .25rem 0 0; color: var(--muted); font-size: .91rem; line-height: 1.7; }
+  .flow-panel { display: grid; min-height: 205px; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: .7rem; margin-top: 1.4rem; overflow: hidden; border-radius: 16px; background: var(--dark); padding: 1.4rem 1.55rem; color: var(--paper); }
+  .flow-step { display: grid; place-items: center; text-align: center; }
+  .flow-index { align-self: start; justify-self: start; width: 24px; height: 24px; border-radius: 50%; background: #72a900; color: #101600; font-size: .72rem; font-weight: 800; line-height: 24px; }
+  .flow-icon { display: grid; width: 68px; height: 68px; place-items: center; border: 1px dashed rgba(248,245,239,.42); border-radius: 12px; }
+  .flow-icon svg { width: 48px; fill: none; stroke: rgba(248,245,239,.9); stroke-width: 1.5; }
+  .flow-step:nth-of-type(2) .flow-icon svg { stroke: var(--accent); }
+  .flow-step strong { margin-top: .75rem; font-size: .85rem; }
+  .flow-step small { color: rgba(248,245,239,.52); font-size: .67rem; }
+  .flow-arrow { color: rgba(248,245,239,.8); font-size: 1.15rem; letter-spacing: .06em; }
+  .panel-caption { margin-top: .7rem !important; font-size: .76rem !important; }
+  .local-panel { display: grid; min-height: 225px; grid-template-columns: 190px 1fr; align-items: center; margin-top: 1.4rem; overflow: hidden; border: 1px solid var(--border); border-radius: 16px; background: rgba(255,255,255,.34); }
+  .local-phone { display: grid; height: 100%; place-items: center; border-right: 1px solid var(--border); }
+  .local-phone svg { width: 84px; fill: none; stroke: var(--text); stroke-width: 2; }
+  .local-phone svg g { stroke: #72a900; }
+  .local-rows { padding: 0 2.2rem; }
+  .local-rows > div { display: grid; min-height: 80px; grid-template-columns: 42px 1fr; align-items: center; gap: 1rem; }
+  .local-rows > div + div { border-top: 1px solid var(--border); }
+  .local-rows strong { font-size: 1rem; }
+  .local-row-icon { width: 36px; fill: none; stroke: var(--text); stroke-width: 1.5; }
+  .chip-icon rect:last-of-type,.chip-icon path:last-child { stroke: #72a900; }
+
+  @media (max-width: 1050px) {
+    .privacy-hero { padding-top: 2.6rem; }
+    .hero-grid { grid-template-columns: minmax(270px,.72fr) minmax(430px,1.28fr); gap: 2.4rem; }
+    .hero-copy h1 { font-size: clamp(3.6rem,7vw,4.5rem); }
+    .hero-diagram { min-height: 285px; }
+    .hero-diagram svg { height: 250px; }
+    .summary-card { min-height: 190px; padding-right: 4.7rem; }
+    .summary-icon { right: 1rem; width: 50px; height: 50px; }
+    .policy-grid { grid-template-columns: 180px minmax(0,1fr); gap: 3rem; }
+  }
+
+  @media (max-width: 760px) {
+    .privacy-container { width: min(calc(100% - 32px), 620px); }
+    .privacy-hero { padding-top: 3rem; }
+    .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-copy h1 { font-size: clamp(3.5rem,15vw,5rem); }
+    .lang-zh .hero-copy h1 { font-size: clamp(3rem,13vw,4.2rem); }
+    .lang-en .hero-copy h1 { font-size: clamp(2.75rem,12vw,3.5rem); }
+    .lang-ja .hero-copy h1 { font-size: clamp(2.55rem,11vw,3.1rem); }
+    .hero-diagram { min-height: 260px; }
+    .hero-diagram svg { height: 225px; padding-inline: 8px; }
+    .summary-grid { grid-template-columns: 1fr; }
+    .summary-card { min-height: 160px; }
+    .policy-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .policy-nav { position: static; }
+    .policy-nav nav { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .flow-panel { grid-template-columns: 1fr; gap: 1rem; padding-block: 1.8rem; }
+    .flow-arrow { transform: rotate(90deg); }
+    .flow-index { justify-self: center; }
+    .local-panel { grid-template-columns: 118px 1fr; }
+    .local-phone svg { width: 68px; }
+    .local-rows { padding: 0 1rem; }
+    .local-rows > div { grid-template-columns: 32px 1fr; gap: .55rem; }
+    .local-rows strong { font-size: .82rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .privacy-page * { scroll-behavior: auto; }
+    .hero-diagram .device-outline, .hero-diagram .privacy-rings, .hero-diagram .link-line,
+    .hero-diagram .link-dot, .hero-diagram .hero-lock, .hero-diagram strong {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      stroke-dashoffset: 0 !important;
+    }
+  }
+</style>

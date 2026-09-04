@@ -1,123 +1,43 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SupportPage from '../components/SupportPage.astro';
 import { siteConfig } from '../config/site';
 
-const helpSections = [
-  ['Getting started', 'Place your iPhone or iPad on a stable desk stand, make sure your upper body is visible, open Posturely, and begin a monitoring session.'],
-  ['Camera permission troubleshooting', 'Open iOS Settings, find Posturely, and confirm that Camera access is enabled. Return to Posturely and start a new session.'],
-  ['Setting up your phone stand', 'Use a stable stand at a side-front angle. Keep the camera near desk height or slightly above, and avoid blocking it with books or a laptop screen.'],
-  ['Improving detection', 'Use even lighting, remain within the camera frame, and adjust sensitivity if small movements cause too many reminders or large changes are missed.'],
-  ['Subscriptions and purchases', 'Manage an active subscription through your Apple ID subscription settings. Purchase availability and terms are shown in the App Store and in the app.'],
-  ['Restore purchases', 'Open the purchase or subscription area in Posturely and choose Restore Purchases while signed in with the Apple ID originally used for the purchase.'],
-] as const;
+const content = {
+  title: 'Posturely Support and Setup Help',
+  description: 'Get help with Posturely setup, camera permission, phone stand placement, detection quality, subscriptions, and restoring purchases.',
+  eyebrow: 'Support',
+  heading: 'Help every Posturely session run smoothly.',
+  intro: 'Find setup guidance, camera troubleshooting, detection tips, and purchase help for Posturely on iPhone and iPad.',
+  browseTitle: 'Support topics',
+  steps: ['Position your device', 'Check permissions', 'Start monitoring'],
+  items: [
+    ['Getting started', 'Place your iPhone or iPad on a stable desk stand, make sure your upper body is visible, open Posturely, and begin a monitoring session.'],
+    ['Camera permission troubleshooting', 'Open iOS Settings, find Posturely, and confirm that Camera access is enabled. Return to Posturely and start a new session.'],
+    ['Setting up your phone stand', 'Use a stable stand at a side-front angle. Keep the camera near desk height or slightly above, and avoid blocking it with books or a laptop screen.'],
+    ['Improving detection', 'Use even lighting, remain within the camera frame, and adjust sensitivity if small movements cause too many reminders or large changes are missed.'],
+    ['Subscriptions and purchases', 'Manage an active subscription through your Apple ID subscription settings. Purchase availability and terms are shown in the App Store and in the app.'],
+    ['Restore purchases', 'Open the purchase or subscription area in Posturely and choose Restore Purchases while signed in with the Apple ID originally used for the purchase.'],
+  ],
+  contactTitle: 'Need more help?',
+  contactText: 'Include your device model, iOS version, Posturely app version, and a short description of what happened. Do not send camera footage or sensitive personal information.',
+  email: 'Send support email',
+} as const;
 ---
 
-<BaseLayout
-  title="Posturely Support and Setup Help"
-  description="Get help with Posturely setup, camera permission, phone stand placement, detection quality, subscriptions, and restoring purchases."
-  canonical="/support/"
->
-  <PageHero
-    eyebrow="Support"
-    title="Help for a smoother Posturely session."
-    description="Find practical setup guidance, camera troubleshooting, detection tips, and purchase help for Posturely on iPhone and iPad."
+<BaseLayout title={content.title} description={content.description} canonical="/support/">
+  <SupportPage
+    locale="en"
+    eyebrow={content.eyebrow}
+    heading={content.heading}
+    intro={content.intro}
+    browseTitle={content.browseTitle}
+    steps={content.steps}
+    items={content.items}
+    contactEyebrow="Contact support"
+    contactTitle={content.contactTitle}
+    contactText={content.contactText}
+    emailLabel={content.email}
+    emailHref={`mailto:${siteConfig.supportEmail}?subject=Posturely%20Support`}
   />
-  <section class="support-section">
-    <div class="container">
-      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Support' }]} />
-      <div class="support-grid">
-        {helpSections.map(([title, description], index) => (
-          <article class="surface-card">
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            <h2>{title}</h2>
-            <p>{description}</p>
-          </article>
-        ))}
-      </div>
-      <section class="contact surface-card" aria-labelledby="contact-title">
-        <div>
-          <p class="eyebrow">Contact support</p>
-          <h2 id="contact-title">Still need help?</h2>
-          <p>Include your device model, iOS version, Posturely app version, and a short description of what happened. Do not send camera footage or sensitive personal information.</p>
-        </div>
-        <a href={`mailto:${siteConfig.supportEmail}?subject=Posturely%20Support`}>Email {siteConfig.supportEmail} <span aria-hidden="true">↗</span></a>
-      </section>
-    </div>
-  </section>
 </BaseLayout>
-
-<style>
-  .support-section {
-    border-top: 1px solid var(--border);
-    padding: 2rem 0 7rem;
-  }
-
-  .support-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-top: 3rem;
-  }
-
-  .support-grid article {
-    min-height: 260px;
-    padding: clamp(1.5rem, 4vw, 2.5rem);
-  }
-
-  .support-grid article > span {
-    color: var(--accent-text);
-    font-size: 0.72rem;
-    font-weight: 760;
-  }
-
-  h2 {
-    margin: 3rem 0 0;
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    letter-spacing: -0.04em;
-    font-weight: 520;
-  }
-
-  article p,
-  .contact p:last-child {
-    max-width: 650px;
-    margin: 0.8rem 0 0;
-    color: var(--muted);
-  }
-
-  .contact {
-    display: grid;
-    grid-template-columns: 1.4fr 0.6fr;
-    align-items: end;
-    gap: 3rem;
-    margin-top: 1rem;
-    border-color: var(--border-strong);
-    padding: clamp(2rem, 5vw, 4rem);
-  }
-
-  .contact h2 {
-    margin-top: 0;
-    font-size: clamp(2.2rem, 5vw, 4rem);
-  }
-
-  .contact a {
-    border-radius: 14px;
-    background: var(--accent);
-    color: var(--accent-ink);
-    padding: 1rem 1.2rem;
-    font-weight: 760;
-    text-align: center;
-  }
-
-  @media (max-width: 720px) {
-    .support-grid,
-    .contact {
-      grid-template-columns: 1fr;
-    }
-
-    .contact {
-      align-items: stretch;
-    }
-  }
-</style>

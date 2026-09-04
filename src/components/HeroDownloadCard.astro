@@ -1,31 +1,34 @@
 ---
 import AppStoreButton from './AppStoreButton.astro';
-import { appStore } from '../config/site';
-import { getLocaleFromPath } from '../i18n';
+import { getLocaleFromPath, localizedPath, type Locale } from '../i18n';
 
 const locale = getLocaleFromPath(Astro.url.pathname);
 const title = {
-  en: 'Scan to download Posturely',
-  zh: '扫码下载 Posturely',
-  ja: 'QRコードで Posturely をダウンロード',
+  en: 'Scan to view download options',
+  zh: '扫码查看下载方式',
+  ja: 'QRコードでダウンロード方法を見る',
 }[locale];
 const qrLabel = {
-  en: 'Open Posturely in the App Store',
-  zh: '在 App Store 中打开 Posturely',
-  ja: 'App Store で Posturely を開く',
+  en: 'Open the Posturely download guide',
+  zh: '打开 Posturely 下载说明页',
+  ja: 'Posturely のダウンロードガイドを開く',
 }[locale];
+const qrImages: Record<Locale, string> = {
+  en: '/images/posturely-download-guide-en-qr.png',
+  zh: '/images/posturely-download-guide-zh-qr.png',
+  ja: '/images/posturely-download-guide-ja-qr.png',
+};
 ---
 
 <div class="desktop-download">
   <div class="qr-download-card">
     <a
       class="qr-code-link"
-      href={appStore.url}
-      rel="noopener noreferrer"
+      href={localizedPath('/download/', locale)}
       aria-label={qrLabel}
     >
       <img
-        src={appStore.qrImage}
+        src={qrImages[locale]}
         width="496"
         height="496"
         alt=""

@@ -4,76 +4,43 @@ import { common, getLocaleFromPath, localizedPath } from '../i18n';
 
 const locale = getLocaleFromPath(Astro.url.pathname);
 const copy = common[locale];
-const localizedNavigation = navigation.map((item, index) => ({ href: localizedPath(item.href, locale), label: copy.nav[index] }));
+const localizedNavigation = navigation.filter((item) => item.href !== '/').map((item, index) => ({
+  href: localizedPath(item.href, locale),
+  label: copy.nav[index + 1],
+}));
 ---
 
 <footer class="site-footer">
-  <div class="container footer-grid">
-    <div>
-      <a class="footer-brand" href={localizedPath('/', locale)}>{siteConfig.siteName}</a>
+  <div class="container footer-inner">
+    <div class="footer-about">
+      <a class="footer-brand" href={localizedPath('/', locale)}>
+        <img src="/images/posturely-app-icon.png" width="192" height="192" alt="" />
+        <span>{siteConfig.siteName}</span>
+      </a>
       <p>{copy.footerLine}</p>
     </div>
     <nav aria-label="Footer navigation">
       {localizedNavigation.map((item) => <a href={item.href}>{item.label}</a>)}
     </nav>
     <div class="legal">
-      <p>© {new Date().getFullYear()} {siteConfig.developerName}</p>
+      <p>© {new Date().getFullYear()} Posturely</p>
       <p>{copy.medical}</p>
     </div>
   </div>
 </footer>
 
 <style>
-  .site-footer {
-    border-top: 1px solid var(--border);
-    padding: 3.5rem 0;
-  }
-
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr 1fr;
-    gap: 3rem;
-  }
-
-  .footer-brand {
-    font-size: 1.15rem;
-    font-weight: 780;
-  }
-
-  p {
-    max-width: 320px;
-    margin: 0.6rem 0 0;
-    color: var(--subtle);
-    font-size: 0.88rem;
-  }
-
-  nav {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.6rem 1rem;
-  }
-
-  nav a {
-    color: var(--muted);
-    font-size: 0.9rem;
-  }
-
-  nav a:hover {
-    color: var(--text);
-  }
-
-  .legal {
-    justify-self: end;
-  }
-
-  @media (max-width: 760px) {
-    .footer-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .legal {
-      justify-self: start;
-    }
+  .site-footer { background: var(--dark); color: var(--paper); padding: 3.25rem 0; }
+  .footer-inner { display: grid; grid-template-columns: 1.15fr 1.2fr .8fr; align-items: start; gap: 3rem; }
+  .footer-brand { display: inline-flex; align-items: center; gap: .65rem; font-size: 1.05rem; font-weight: 760; }
+  .footer-brand img { width: 32px; height: 32px; border-radius: 8px; }
+  .footer-about p, .legal p { max-width: 320px; margin: .7rem 0 0; color: rgba(248,247,241,.45); font-size: .76rem; }
+  nav { display: flex; flex-wrap: wrap; gap: .7rem 1.5rem; }
+  nav a { color: rgba(248,247,241,.62); font-size: .78rem; }
+  nav a:hover { color: var(--accent); }
+  .legal { justify-self: end; text-align: right; }
+  @media (max-width: 800px) {
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .legal { justify-self: start; text-align: left; }
   }
 </style>
