@@ -47,7 +47,23 @@ npm run validate
 - `npm run build` generates the static website in `dist/`.
 - `npm run validate` rebuilds the site and checks generated pages for titles, descriptions, canonical URLs, exactly one `h1`, internal links, image alt text, valid JSON-LD, `robots.txt`, `sitemap.xml`, and the Open Graph image.
 
-## Cloudflare Pages deployment
+## Cloudflare deployment
+
+This repository generates a fully static `dist/` directory and does not need the
+`@astrojs/cloudflare` adapter.
+
+For Cloudflare Workers Builds, use:
+
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Root directory: repository root
+- Node.js version: `22.12` or newer
+
+The checked-in `wrangler.jsonc` deploys `dist/` as static assets. Keep this file
+so Wrangler does not auto-configure the project as a server-rendered Astro app.
+
+For Cloudflare Pages, use the settings below and let Pages publish the build
+output directly; a separate Wrangler deploy command is not required.
 
 Create a Cloudflare Pages project connected to this Git repository and use:
 
