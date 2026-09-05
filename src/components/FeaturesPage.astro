@@ -129,7 +129,17 @@ const copy = content[locale];
       </div>
 
       <div class="hero-scene" data-page-reveal="scale" data-page-delay="100" aria-hidden="true">
-        <img src="/images/features/hero-scene-v2.png" alt="" width="1536" height="1001" />
+        <img
+          src="/images/features/hero-scene-v2.webp"
+          srcset="/images/features/hero-scene-v2-768.webp 768w, /images/features/hero-scene-v2.webp 1536w"
+          sizes="(max-width: 720px) calc(100vw - 32px), 52vw"
+          alt=""
+          width="1536"
+          height="1001"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+        />
       </div>
     </div>
   </section>
@@ -151,7 +161,16 @@ const copy = content[locale];
       </div>
 
       <div class="posture-radar" aria-hidden="true">
-        <img src="/images/features/posture-radar-v2.png" alt="" width="1170" height="1254" />
+        <img
+          src="/images/features/posture-radar-v2.webp"
+          srcset="/images/features/posture-radar-v2-720.webp 720w, /images/features/posture-radar-v2.webp 1170w"
+          sizes="(max-width: 600px) calc(100vw - 32px), 390px"
+          alt=""
+          width="1170"
+          height="1254"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
 
       <div class="notice-item notice-right-top">
@@ -176,13 +195,31 @@ const copy = content[locale];
         </ul>
       </div>
       <div class="capability-art reminder-art" aria-hidden="true">
-        <img src="/images/features/reminder-device-v2.png" alt="" width="1629" height="966" />
+        <img
+          src="/images/features/reminder-device-v2.webp"
+          srcset="/images/features/reminder-device-v2-800.webp 800w, /images/features/reminder-device-v2.webp 1629w"
+          sizes="(max-width: 720px) calc(100vw - 32px), 50vw"
+          alt=""
+          width="1629"
+          height="966"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
     </div>
 
     <div class="features-container capability-grid capability-rhythm" data-features-reveal>
       <div class="capability-art timer-art" aria-hidden="true">
-        <img src="/images/features/timer-device-v2.png" alt="" width="1508" height="1043" />
+        <img
+          src="/images/features/timer-device-v2.webp"
+          srcset="/images/features/timer-device-v2-800.webp 800w, /images/features/timer-device-v2.webp 1508w"
+          sizes="(max-width: 720px) calc(100vw - 32px), 50vw"
+          alt=""
+          width="1508"
+          height="1043"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
       <div class="capability-copy">
         <span class="capability-number">{copy.rhythmNumber}</span>
@@ -203,7 +240,17 @@ const copy = content[locale];
           <h2>{copy.deskTitle}</h2>
           <p>{copy.deskBody}</p>
         </div>
-        <img class="desk-visual" src="/images/features/desk-scene-v2.png" alt="" width="1774" height="773" />
+        <img
+          class="desk-visual"
+          src="/images/features/desk-scene-v2.webp"
+          srcset="/images/features/desk-scene-v2-720.webp 720w, /images/features/desk-scene-v2.webp 1774w"
+          sizes="(max-width: 720px) calc(100vw - 32px), 50vw"
+          alt=""
+          width="1774"
+          height="773"
+          loading="lazy"
+          decoding="async"
+        />
       </article>
 
       <article class="privacy-panel" data-features-reveal>
@@ -211,7 +258,18 @@ const copy = content[locale];
           <h2>{copy.privacyTitle}</h2>
           <p>{copy.privacyBody}</p>
         </div>
-        <img class="privacy-diagram" src="/images/features/privacy-diagram-v2.png" alt="" width="1792" height="717" aria-hidden="true" />
+        <img
+          class="privacy-diagram"
+          src="/images/features/privacy-diagram-v2.webp"
+          srcset="/images/features/privacy-diagram-v2-720.webp 720w, /images/features/privacy-diagram-v2.webp 1792w"
+          sizes="(max-width: 720px) calc(100vw - 32px), 50vw"
+          alt=""
+          width="1792"
+          height="717"
+          loading="lazy"
+          decoding="async"
+          aria-hidden="true"
+        />
       </article>
 
     </div>

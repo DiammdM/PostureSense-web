@@ -79,7 +79,17 @@ const icons = ['camera', 'stand', 'light', 'bag', 'restore'] as const;
       </div>
 
       <div class="hero-visual" aria-hidden="true" data-page-reveal="scale" data-page-delay="100">
-        <img src="/images/support-hero-illustration-v3.png" alt="" loading="eager" decoding="async" />
+        <img
+          src="/images/support-hero-illustration-v3.webp"
+          srcset="/images/support-hero-illustration-v3-768.webp 768w, /images/support-hero-illustration-v3.webp 1464w"
+          sizes="(max-width: 780px) 92vw, 55vw"
+          alt=""
+          width="1464"
+          height="1014"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+        />
       </div>
     </div>
   </section>
@@ -109,7 +119,9 @@ const icons = ['camera', 'stand', 'light', 'bag', 'restore'] as const;
             <p>{items[0][1]}</p>
             <img
               class="featured-art"
-              src="/images/support-featured-topic-illustration-v1.png"
+              src="/images/support-featured-topic-illustration-v1.webp"
+              srcset="/images/support-featured-topic-illustration-v1-768.webp 768w, /images/support-featured-topic-illustration-v1.webp 1023w"
+              sizes="(max-width: 780px) 92vw, 40vw"
               width="1023"
               height="1538"
               alt=""

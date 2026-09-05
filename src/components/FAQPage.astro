@@ -89,7 +89,19 @@ const groups = t.groups.map(([title, description], index) => ({
       </div>
 
       <div class="faq-hero-art" aria-hidden="true">
-        <img src="/images/faq-hero-illustration-v2.png" alt="" width="1448" height="1086" loading="eager" decoding="async" data-page-reveal="scale" data-page-delay="100" />
+        <img
+          src="/images/faq-hero-illustration-v2.webp"
+          srcset="/images/faq-hero-illustration-v2-768.webp 768w, /images/faq-hero-illustration-v2.webp 1448w"
+          sizes="(max-width: 920px) 92vw, 40vw"
+          alt=""
+          width="1448"
+          height="1086"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          data-page-reveal="scale"
+          data-page-delay="100"
+        />
       </div>
     </div>
   </section>

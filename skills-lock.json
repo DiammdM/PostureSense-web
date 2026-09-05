@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "4eabc66183767153e404b39d1b839b1c37f2d82d86f0a0d7e880a579d8d62336"
+    },
+    "launch-landing-page": {
+      "source": "amplitude/builder-skills",
+      "sourceType": "github",
+      "skillPath": "launch-skills/skills/launch-landing-page/SKILL.md",
+      "computedHash": "4830302f772a6de564b761ffdb0f277d5147ba5b590f6f0a9d80dc1a218c1511"
+    }
+  }
+}
