@@ -40,6 +40,8 @@ for (const file of htmlFiles) {
 
   if (name === 'index.html' || name === 'zh/index.html' || name === 'ja/index.html') {
     requireMatch(new RegExp(appStoreUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), 'global App Store link');
+    requireMatch(/posturely-product-hero-real-app-v2-800\.jpg 800w/, 'responsive homepage hero image');
+    requireMatch(/home-posture-awareness-scene-v1-800\.webp 800w/, 'responsive posture-awareness image');
   }
 
   if (/https:\/\/apps\.apple\.com\/(?:cn|hk|tw|sg|jp|us)\//.test(html)) {
@@ -66,7 +68,19 @@ for (const file of htmlFiles) {
   }
 }
 
-for (const required of ['robots.txt', 'sitemap.xml', 'og.png']) {
+for (const required of [
+  '_headers',
+  '_redirects',
+  'robots.txt',
+  'sitemap.xml',
+  'og.png',
+  'images/posturely-product-hero-real-app-v2-800.jpg',
+  'images/posturely-product-hero-real-app-v2-1100.jpg',
+  'images/home-posture-awareness-scene-v1-800.webp',
+  'images/home-posture-awareness-scene-v1.webp',
+  'images/posturely-app-icon-96.webp',
+  'images/posturely-app-icon.webp',
+]) {
   if (!existsSync(join(rootPath, required))) errors.push(`missing ${required}`);
 }
 

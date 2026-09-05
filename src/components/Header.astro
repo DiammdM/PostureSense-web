@@ -38,7 +38,14 @@ const languageMenuNames = {
   <div class="header-inner">
     <a class="brand" href={localizedPath('/', locale)} aria-label={`${siteConfig.siteName} ${copy.nav[0]}`}>
       <span class="brand-mark" aria-hidden="true">
-        <img src="/images/posturely-app-icon.png" width="192" height="192" alt="" />
+        <img
+          src="/images/posturely-app-icon-96.webp"
+          srcset="/images/posturely-app-icon-96.webp 96w, /images/posturely-app-icon.webp 192w"
+          sizes="38px"
+          width="192"
+          height="192"
+          alt=""
+        />
       </span>
       <span>{siteConfig.siteName}</span>
     </a>

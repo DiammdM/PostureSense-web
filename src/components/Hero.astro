@@ -50,7 +50,16 @@ const copy = {
     </div>
 
     <figure class="hero-product" data-hero-product>
-      <img src="/images/posturely-product-hero-real-app-v2.jpg" width="1536" height="1024" alt={copy.productAlt} loading="eager" fetchpriority="high" />
+      <img
+        src="/images/posturely-product-hero-real-app-v2.jpg"
+        srcset="/images/posturely-product-hero-real-app-v2-800.jpg 800w, /images/posturely-product-hero-real-app-v2-1100.jpg 1100w, /images/posturely-product-hero-real-app-v2.jpg 1536w"
+        sizes="(max-width: 480px) 350px, (max-width: 720px) 390px, (max-width: 1000px) 420px, (min-width: 1625px) 520px, 32vw"
+        width="1536"
+        height="1024"
+        alt={copy.productAlt}
+        loading="eager"
+        fetchpriority="high"
+      />
     </figure>
   </div>
 </section>

@@ -14,7 +14,14 @@ const localizedNavigation = navigation.filter((item) => item.href !== '/').map((
   <div class="container footer-inner">
     <div class="footer-about">
       <a class="footer-brand" href={localizedPath('/', locale)}>
-        <img src="/images/posturely-app-icon.png" width="192" height="192" alt="" />
+        <img
+          src="/images/posturely-app-icon-96.webp"
+          srcset="/images/posturely-app-icon-96.webp 96w, /images/posturely-app-icon.webp 192w"
+          sizes="32px"
+          width="192"
+          height="192"
+          alt=""
+        />
         <span>{siteConfig.siteName}</span>
       </a>
       <p>{copy.footerLine}</p>
