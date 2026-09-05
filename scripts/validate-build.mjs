@@ -35,7 +35,7 @@ for (const file of htmlFiles) {
 
   requireMatch(/<title>[^<]+<\/title>/, 'title');
   requireMatch(/<meta name="description" content="[^"]+">/, 'meta description');
-  requireMatch(/<link rel="canonical" href="https:\/\/posturely\.daimmd\.com\/[^"]*">/, 'canonical URL');
+  requireMatch(/<link rel="canonical" href="https:\/\/posturely\.diammd\.com\/[^"]*">/, 'canonical URL');
   requireMatch(/<h1(?:\s[^>]*)?>[\s\S]*?<\/h1>/, 'h1');
 
   if (name === 'index.html' || name === 'zh/index.html' || name === 'ja/index.html') {

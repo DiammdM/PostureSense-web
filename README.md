@@ -2,7 +2,7 @@
 
 The official multilingual website for Posturely, an iPhone and iPad posture reminder app. The site is built as static HTML for fast, low-maintenance deployment to Cloudflare Pages.
 
-Production URL: `https://posturely.daimmd.com`
+Production URL: `https://posturely.diammd.com`
 
 ## Stack
 
@@ -79,9 +79,9 @@ After the first successful deployment:
 
 1. Open the Pages project in Cloudflare.
 2. Go to **Custom domains**.
-3. Add `posturely.daimmd.com`.
-4. If `daimmd.com` already uses Cloudflare DNS, accept the proposed DNS record. Otherwise add the CNAME record Cloudflare provides at the current DNS provider.
-5. Confirm HTTPS is active, then submit `https://posturely.daimmd.com/sitemap.xml` in Google Search Console and Bing Webmaster Tools.
+3. Add `posturely.diammd.com`.
+4. If `diammd.com` already uses Cloudflare DNS, accept the proposed DNS record. Otherwise add the CNAME record Cloudflare provides at the current DNS provider.
+5. Confirm HTTPS is active, then submit `https://posturely.diammd.com/sitemap.xml` in Google Search Console and Bing Webmaster Tools.
 
 ## Site configuration
 

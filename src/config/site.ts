@@ -1,6 +1,6 @@
 export const siteConfig = {
   siteName: 'Posturely',
-  siteUrl: 'https://posturely.daimmd.com',
+  siteUrl: 'https://posturely.diammd.com',
   description:
     'Posturely is an iOS posture reminder app that uses on-device detection to help you notice head-down, forward-leaning, and tilted posture during desk sessions.',
   supportEmail: 'diammd@icloud.com',
