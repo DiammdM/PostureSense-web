@@ -1,33 +1,28 @@
 ---
-import { getLocaleFromPath, type Locale } from '../i18n';
+import { appStore } from '../config/site';
+import { getLocaleFromPath } from '../i18n';
 
 const locale = getLocaleFromPath(Astro.url.pathname);
 const copy = {
   en: {
     title: 'Download Posturely.',
     intro: 'Search for Posturely in the App Store and look for the app icon.',
-    scanLabel: 'Scan on your phone',
-    scanAlt: 'QR code for the English Posturely download page',
+    scanLabel: 'Scan to download',
+    scanAlt: 'QR code to download Posturely from the App Store',
   },
   zh: {
     title: '下载 Posturely。',
     intro: '在 App Store 搜索 Posturely，认准应用图标。',
-    scanLabel: '手机扫码查看',
-    scanAlt: 'Posturely 中文下载页二维码',
+    scanLabel: '手机扫码下载',
+    scanAlt: '前往 App Store 下载 Posturely 的二维码',
   },
   ja: {
     title: 'Posturely をダウンロード。',
     intro: 'App Store で Posturely を検索し、アプリアイコンをご確認ください。',
-    scanLabel: 'スマートフォンでスキャン',
-    scanAlt: 'Posturely 日本語ダウンロードページの QR コード',
+    scanLabel: 'スキャンしてダウンロード',
+    scanAlt: 'App Store から Posturely をダウンロードするための QR コード',
   },
 }[locale];
-
-const qrImages: Record<Locale, string> = {
-  en: '/images/posturely-download-guide-en-qr.png',
-  zh: '/images/posturely-download-guide-zh-qr.png',
-  ja: '/images/posturely-download-guide-ja-qr.png',
-};
 ---
 
 <article class:list={['download-guide', `lang-${locale}`]}>
@@ -47,7 +42,7 @@ const qrImages: Record<Locale, string> = {
         <section class="download-card qr-card" aria-label={copy.scanLabel} data-download-reveal style="--reveal-delay: 220ms">
           <div class="qr-frame">
             <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
-            <img src={qrImages[locale]} width="328" height="328" alt={copy.scanAlt} />
+            <img src={appStore.qrImage} width="496" height="496" alt={copy.scanAlt} />
           </div>
           <h2>{copy.scanLabel}</h2>
         </section>

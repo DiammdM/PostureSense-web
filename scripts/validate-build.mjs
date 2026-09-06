@@ -44,6 +44,14 @@ for (const file of htmlFiles) {
     requireMatch(/home-posture-awareness-scene-v1-800\.webp 800w/, 'responsive posture-awareness image');
   }
 
+  if (name === 'download/index.html' || name === 'zh/download/index.html' || name === 'ja/download/index.html') {
+    requireMatch(/src="\/images\/posturely-app-store-qr\.png"/, 'App Store download QR code');
+  }
+
+  if (/posturely-download-guide-(?:en|zh|ja)-qr\.png/.test(html)) {
+    errors.push(`${name}: contains a website download-page QR code instead of the App Store QR code`);
+  }
+
   if (/https:\/\/apps\.apple\.com\/(?:cn|hk|tw|sg|jp|us)\//.test(html)) {
     errors.push(`${name}: contains a region-specific App Store link`);
   }
@@ -80,6 +88,7 @@ for (const required of [
   'images/home-posture-awareness-scene-v1.webp',
   'images/posturely-app-icon-96.webp',
   'images/posturely-app-icon.webp',
+  'images/posturely-app-store-qr.png',
 ]) {
   if (!existsSync(join(rootPath, required))) errors.push(`missing ${required}`);
 }
