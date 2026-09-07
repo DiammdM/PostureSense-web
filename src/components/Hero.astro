@@ -4,22 +4,22 @@ import { getLocaleFromPath, localizedPath } from '../i18n';
 const locale = getLocaleFromPath(Astro.url.pathname);
 const copy = {
   en: {
-    titleLine1: 'When focus takes over,',
-    titleLine2: 'don’t forget your body.',
+    titleLine1: 'When focus takes over',
+    titleLine2: 'don’t forget your body',
     description: 'Let your iPhone gently remind you of sustained posture changes while you study, read, or work.',
     cta: 'How to download Posturely',
     productAlt: 'Posturely running on an iPhone placed on a desk stand',
   },
   zh: {
-    titleLine1: '良好坐姿，',
-    titleLine2: '可以很简单。',
+    titleLine1: '良好坐姿',
+    titleLine2: '可以很简单',
     description: '学习、阅读或工作太投入时，Posturely 会轻轻提醒你留意坐姿。',
     cta: '如何下载 Posturely',
     productAlt: 'Posturely 在桌面支架上的 iPhone 中运行',
   },
   ja: {
-    titleLine1: '集中するとき、',
-    titleLine2: '体のことも忘れずに。',
+    titleLine1: '集中するとき',
+    titleLine2: '体のことも忘れずに',
     description: '勉強、読書、仕事中の大きな姿勢変化を、iPhone がやさしく知らせます。',
     cta: 'Posturely のダウンロード方法',
     productAlt: 'デスクスタンドの iPhone で動作する Posturely',
@@ -44,7 +44,7 @@ const copy = {
     </svg>
 
     <div class="hero-copy" data-hero-copy>
-      <h1>{copy.titleLine1}<br />{copy.titleLine2}</h1>
+      <h1><span>{copy.titleLine1}</span><span>{copy.titleLine2}</span></h1>
       <p class="hero-description">{copy.description}</p>
       <a class="hero-cta" href={localizedPath('/download/', locale)}>{copy.cta} <span aria-hidden="true">→</span></a>
     </div>
@@ -68,8 +68,9 @@ const copy = {
   .home-hero { overflow: hidden; background: var(--paper); }
   .hero-stage { position: relative; display: grid; min-height: clamp(720px, 72vw, 900px); place-items: start center; overflow: hidden; padding: clamp(6rem, 10vw, 9rem) 24px 5rem; isolation: isolate; }
   .hero-copy { position: relative; z-index: 4; width: min(100%, 1040px); text-align: center; }
-  h1 { margin: 0; font-family: var(--font-display); font-size: clamp(3.2rem, 4.7vw, 5.1rem); font-weight: 400; letter-spacing: -.055em; line-height: .96; text-wrap: balance; }
-  .lang-zh h1, .lang-ja h1 { letter-spacing: -.075em; line-height: 1.05; }
+  h1 { margin: 0; font-family: var(--font-display); font-size: clamp(3.2rem, 4.7vw, 5.1rem); font-weight: 400; letter-spacing: -.055em; line-height: 1.12; text-wrap: balance; }
+  h1 > span { display: block; overflow: clip; }
+  .lang-zh h1, .lang-ja h1 { letter-spacing: -.075em; }
   .hero-description { max-width: 720px; margin: 2rem auto 0; color: var(--muted); font-size: clamp(1rem, 1.55vw, 1.22rem); line-height: 1.75; text-wrap: balance; }
   .hero-cta { display: inline-flex; min-height: 60px; align-items: center; justify-content: center; gap: .7rem; margin-top: 2.3rem; border-radius: 999px; background: var(--accent); padding: .8rem 2rem; color: var(--accent-ink); font-size: 1rem; font-weight: 760; box-shadow: inset 0 0 0 1px rgba(17,19,17,.08); transition: transform 180ms cubic-bezier(.22,1,.36,1), box-shadow 180ms ease; }
   .hero-cta span { transition: transform 180ms cubic-bezier(.22,1,.36,1); }

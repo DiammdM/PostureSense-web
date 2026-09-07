@@ -12,7 +12,7 @@ const locale = getLocaleFromPath(Astro.url.pathname);
 const copy = {
   en: {
     eyebrow: 'Frequently asked questions',
-    title: ['Clear answers about', 'Posturely.'],
+    title: ['Clear answers about', 'Posturely'],
     intro: 'From device placement and posture detection to privacy and permissions, find the answer you need.',
     quick: 'Quick overview',
     facts: ['Camera used only during sessions', 'Frames processed on your device', 'Permission can be turned off anytime'],
@@ -28,7 +28,7 @@ const copy = {
   },
   zh: {
     eyebrow: '常见问题',
-    title: ['关于 Posturely，', '先从最常问的开始。'],
+    title: ['关于 Posturely', '先从最常问的开始'],
     intro: '从设备摆放、坐姿检测到隐私权限，快速找到清楚的答案。',
     quick: '快速了解',
     facts: ['只在监督时使用摄像头', '画面仅在设备本地处理', '权限可随时关闭'],
@@ -44,7 +44,7 @@ const copy = {
   },
   ja: {
     eyebrow: 'よくある質問',
-    title: ['Posturely について、', 'よくある質問から。'],
+    title: ['Posturely について', 'よくある質問から'],
     intro: '端末の置き方、姿勢検出、プライバシー、権限について、必要な回答をすぐに確認できます。',
     quick: 'すぐにわかること',
     facts: ['カメラはセッション中のみ使用', '映像は端末上で処理', '権限はいつでも無効にできる'],
@@ -80,7 +80,7 @@ const groups = t.groups.map(([title, description], index) => ({
   <section class="faq-hero" aria-labelledby="faq-page-title">
     <div class="faq-container faq-hero-grid">
       <div class="faq-hero-copy">
-        <p class="eyebrow" data-page-reveal>{t.eyebrow}</p>
+
         <h1 id="faq-page-title" data-page-reveal data-page-delay="80">
           <span>{t.title[0]}</span>
           <span>{t.title[1]}</span>
@@ -108,7 +108,6 @@ const groups = t.groups.map(([title, description], index) => ({
 
   <section class="quick-facts" aria-label={t.quick}>
     <div class="faq-container quick-facts-grid">
-      <p data-page-reveal>{t.quick}</p>
       <div class="quick-fact" data-page-reveal data-page-delay="80">
         <span class="fact-icon camera-icon" aria-hidden="true"><i></i></span>
         <strong>{t.facts[0]}</strong>
@@ -172,19 +171,18 @@ const groups = t.groups.map(([title, description], index) => ({
 <style>
   .faq-page { background: var(--paper); color: var(--text); }
   .faq-container { width: min(calc(100% - 48px), 1180px); margin-inline: auto; }
-  .faq-hero { overflow: clip; border-bottom: 1px solid var(--border); padding: clamp(3.5rem, 7vw, 6.5rem) 0 0; }
-  .faq-hero-grid { display: grid; min-height: 430px; grid-template-columns: minmax(0, 1.12fr) minmax(390px, .88fr); align-items: end; gap: clamp(2rem, 4vw, 4rem); }
-  .faq-hero-copy { align-self: center; padding-bottom: 3rem; }
-  .faq-hero h1 { margin: 0; font-family: var(--font-display); font-size: clamp(3.25rem, 5vw, 4.75rem); font-weight: 400; letter-spacing: -.065em; line-height: 1.04; }
-  .faq-hero h1 span { display: block; white-space: nowrap; }
-  .lang-en .faq-hero h1 { font-size: clamp(3.05rem, 4.8vw, 4.6rem); letter-spacing: -.06em; }
-  .lang-ja .faq-hero h1 { font-size: clamp(3rem, 4.55vw, 4.35rem); letter-spacing: -.075em; }
+  .faq-hero { overflow: clip; border-bottom: 1px solid var(--border); padding: clamp(2rem, 3vw, 2.75rem) 0 0; }
+  .faq-hero-grid { display: grid; min-height: 0; grid-template-columns: minmax(0, 1.12fr) minmax(390px, .88fr); align-items: start; gap: clamp(2rem, 4vw, 4rem); }
+  .faq-hero-copy { padding-bottom: 2rem; }
+  .faq-hero h1 { margin: 0; font-family: var(--font-display); font-size: clamp(2.762rem, 4.25vw, 4.037rem); font-weight: 500; letter-spacing: var(--heading-tracking, -.065em); line-height: 1.12; }
+  .faq-hero h1 span { overflow: clip; display: block; white-space: nowrap; }
+  .lang-en .faq-hero h1 { font-size: clamp(2.592rem, 4.08vw, 3.91rem); letter-spacing: var(--heading-tracking, -.06em); }
+  .lang-ja .faq-hero h1 { font-size: clamp(2.55rem, 3.867vw, 3.697rem); letter-spacing: var(--heading-tracking, -.075em); }
   .faq-intro { max-width: 610px; margin: 1.45rem 0 0; color: var(--muted); font-size: clamp(1rem, 1.5vw, 1.1rem); line-height: 1.8; }
-  .faq-hero-art { align-self: end; transform: translate(28px, -54px); }
+  .faq-hero-art { align-self: start; }
   .faq-hero-art img { display: block; width: 100%; height: auto; }
   .quick-facts { background: var(--dark); color: var(--paper); }
-  .quick-facts-grid { display: grid; min-height: 174px; grid-template-columns: .62fr 1fr minmax(50px,.55fr) 1fr minmax(50px,.55fr) 1fr; align-items: center; gap: 1rem; }
-  .quick-facts-grid > p { margin: 0; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .12em; }
+  .quick-facts-grid { display: grid; min-height: 174px; grid-template-columns: 1fr minmax(50px,.55fr) 1fr minmax(50px,.55fr) 1fr; align-items: center; gap: 1rem; }
   .quick-fact { display: grid; justify-items: center; gap: .85rem; text-align: center; }
   .quick-fact strong { font-size: .86rem; font-weight: 620; line-height: 1.45; }
   .fact-icon { position: relative; display: grid; width: 56px; height: 56px; place-items: center; border: 1px solid rgba(248,245,239,.45); border-radius: 50%; color: var(--accent); }
@@ -219,7 +217,7 @@ const groups = t.groups.map(([title, description], index) => ({
   .support-bubble { display: flex; width: 54px; height: 54px; align-items: center; justify-content: center; gap: 3px; border: 2px solid var(--accent); border-radius: 50%; }
   .support-bubble::after { position: absolute; width: 10px; height: 10px; margin: 43px 0 0 -34px; border-bottom: 2px solid var(--accent); transform: rotate(-30deg); content: ''; }
   .support-bubble i { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
-  .faq-support h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: -.035em; }
+  .faq-support h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: var(--heading-tracking, -.035em); }
   .faq-support p { margin: .25rem 0 0; color: rgba(248,245,239,.58); font-size: .9rem; }
   .faq-support a { display: flex; min-height: 48px; align-items: center; gap: 2rem; border-radius: 4px; background: var(--accent); color: var(--accent-ink); padding: .7rem 1.2rem; font-size: .84rem; font-weight: 760; transition: transform 170ms ease, background 170ms ease; }
   .faq-support a:hover { background: #c5ff43; transform: translateY(-2px); }
@@ -229,20 +227,18 @@ const groups = t.groups.map(([title, description], index) => ({
     .faq-hero-copy { padding-bottom: 0; }
     .faq-hero-art { width: min(100%, 610px); margin-inline: auto; transform: none; }
     .quick-facts-grid { grid-template-columns: 1fr 1fr 1fr; padding: 2.2rem 0; }
-    .quick-facts-grid > p { grid-column: 1 / -1; }
     .signal-line { display: none; }
     .faq-content-grid { grid-template-columns: 190px minmax(0,1fr); gap: 2.5rem; }
   }
 
   @media (max-width: 680px) {
     .faq-container { width: min(calc(100% - 32px), 1180px); }
-    .faq-hero { padding-top: 3.3rem; }
-    .faq-hero h1, .lang-en .faq-hero h1, .lang-ja .faq-hero h1 { font-size: clamp(2.55rem, 12vw, 3.8rem); }
+    .faq-hero { padding-top: 2rem; }
+    .faq-hero h1, .lang-en .faq-hero h1, .lang-ja .faq-hero h1 { font-size: clamp(2.167rem, 10.2vw, 3.23rem); }
     .faq-hero h1 span { white-space: normal; }
     .faq-hero-copy { text-align: left; }
     .faq-hero-art { margin-top: .5rem; }
     .quick-facts-grid { grid-template-columns: 1fr; gap: 1.6rem; }
-    .quick-facts-grid > p { text-align: center; }
     .quick-fact { grid-template-columns: 48px 1fr; align-items: center; justify-items: start; text-align: left; }
     .fact-icon { width: 48px; height: 48px; }
     .lock-icon i::before { top: 11px; left: 16px; }
@@ -258,6 +254,10 @@ const groups = t.groups.map(([title, description], index) => ({
 
   @media (prefers-reduced-motion: reduce) {
     .index-mark, .faq-support a { transition: none; }
+  }
+
+  @media (max-width: 600px) {
+    .lang-zh .faq-hero h1, .lang-ja .faq-hero h1 { font-size: clamp(1.53rem, 8.5vw, 2.55rem); }
   }
 </style>
 

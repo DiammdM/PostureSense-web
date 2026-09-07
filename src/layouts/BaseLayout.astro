@@ -32,7 +32,7 @@ const locale = getLocaleFromPath(Astro.url.pathname);
     <slot name="head" />
     <ClientRouter fallback="swap" />
   </head>
-  <body>
+  <body data-typography={/^\/(zh\/?|ja\/?)?$/.test(Astro.url.pathname) ? 'home' : 'inner'}>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <Header />
     <main id="main-content" transition:name="page-content" transition:animate={fade({ duration: 140 })}><slot /></main>

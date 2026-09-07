@@ -5,8 +5,8 @@ const locale = getLocaleFromPath(Astro.url.pathname);
 const copy = {
   en: {
     eyebrow: 'How it works',
-    title: 'Set down your phone. Start a simple posture session.',
-    titleLines: ['Set down your phone.', 'Start a simple', 'posture session.'],
+    title: 'Set down your phone. Start a simple posture session',
+    titleLines: ['Set down your phone', 'Start a simple', 'posture session'],
     intro: 'Keep your upper body in view, choose a session length, then return your attention to what matters.',
     checks: ['Stable desk stand', 'Upper body clearly visible', 'Choose a session length'],
     journey: 'One session, four moments',
@@ -21,8 +21,8 @@ const copy = {
   },
   zh: {
     eyebrow: '工作原理',
-    title: '放好手机，开始一次轻松的坐姿监督。',
-    titleLines: ['放好手机，', '开始一次轻松的', '坐姿监督。'],
+    title: '放好手机，开始一次轻松的坐姿监督',
+    titleLines: ['放好手机', '开始一次轻松的', '坐姿监督'],
     intro: '让上半身出现在画面中，选择时长，然后专注于眼前的事情。',
     checks: ['稳定支架', '上半身清晰可见', '选择监督时长'],
     journey: '一次监督，四个时刻',
@@ -37,8 +37,8 @@ const copy = {
   },
   ja: {
     eyebrow: '使い方',
-    title: 'スマートフォンを置いて、気軽に姿勢モニタリングを。',
-    titleLines: ['スマートフォンを置いて、', '気軽に姿勢', 'モニタリングを。'],
+    title: 'スマートフォンを置いて、気軽に姿勢モニタリングを',
+    titleLines: ['スマートフォンを', '置いて気軽に姿勢', 'モニタリングを'],
     intro: '上半身が画面に入るようにして時間を選んだら、目の前のことに集中できます。',
     checks: ['安定したスタンド', '上半身が見える', '時間を選択'],
     journey: '1 回のセッション、4 つの場面',
@@ -59,7 +59,7 @@ const copy = {
     <div class="container hiw-hero-grid">
       <div class="hiw-hero-content">
         <div class="hiw-hero-copy">
-          <p class="eyebrow" data-page-reveal>{copy.eyebrow}</p>
+
           <h1 aria-label={copy.title} data-page-reveal data-page-delay="80">{copy.titleLines.map((line) => <span>{line}</span>)}</h1>
           <p class="hiw-intro" data-page-reveal data-page-delay="160">{copy.intro}</p>
         </div>
@@ -187,15 +187,16 @@ const copy = {
 <style>
   .hiw-page { overflow: hidden; background: var(--paper); }
   .hiw-page .container { width: min(calc(100% - clamp(2rem,14vw,10rem)),1180px); }
-  .hiw-hero { border-bottom: 1px solid var(--border); background: var(--paper); padding: clamp(3.4rem,5vw,5.25rem) 0 clamp(2.5rem,4vw,3.75rem); }
-  .hiw-hero-grid { display: grid; grid-template-columns: minmax(0,1.03fr) minmax(360px,.97fr); align-items: center; gap: clamp(2.5rem,5vw,5rem); }
+  .hiw-hero { border-bottom: 1px solid var(--border); background: var(--paper); padding: clamp(2rem,3vw,2.75rem) 0 clamp(1.5rem,2.5vw,2.5rem); }
+  .hiw-hero-grid { display: grid; grid-template-columns: minmax(0,1.03fr) minmax(360px,.97fr); align-items: start; gap: clamp(2.5rem,5vw,5rem); }
   .hiw-hero-content { min-width: 0; }
-  .hiw-hero-copy h1 { max-width: 650px; margin: 0; font-family: var(--font-display); font-size: clamp(3.15rem,4.35vw,4.35rem); font-weight: 400; letter-spacing: -.068em; line-height: 1.01; text-wrap: balance; }
-  .hiw-hero-copy h1 span { display: block; white-space: nowrap; }
-  .lang-zh .hiw-hero-copy h1 { font-size: clamp(43px,4.4vw,62px); letter-spacing: -.075em; }
-  .lang-ja .hiw-hero-copy h1 { font-size: clamp(3rem,4.1vw,4.1rem); letter-spacing: -.075em; }
+  .hiw-hero-copy h1 { max-width: 650px; margin: 0; font-family: var(--font-display); font-size: clamp(3.15rem,4.35vw,4.35rem); font-weight: 500; letter-spacing: var(--heading-tracking, -.068em); line-height: 1.12; text-wrap: balance; }
+  .hiw-hero-copy h1 span { overflow: clip; display: block; white-space: nowrap; }
+  .lang-en .hiw-hero-copy h1 { font-size: clamp(3rem,4.35vw,3.8rem); }
+  .lang-zh .hiw-hero-copy h1 { font-size: clamp(43px,4.4vw,62px); letter-spacing: var(--heading-tracking, -.075em); }
+  .lang-ja .hiw-hero-copy h1 { font-size: clamp(3rem,4.1vw,4.1rem); letter-spacing: var(--heading-tracking, -.075em); }
   .hiw-intro { max-width: 620px; margin: 1.35rem 0 0; color: var(--muted); font-size: clamp(.95rem,1.3vw,1.12rem); }
-  .hiw-hero-scene { min-height: 350px; }
+  .hiw-hero-scene { min-height: 0; }
   .hiw-hero-scene > svg,.hiw-step > .step-art,.hiw-privacy > svg { display: none; }
   .hiw-reference-art { position: relative; z-index: 2; width: 100%; overflow: hidden; pointer-events: none; }
   .hiw-reference-art img { display: block; width: 100%; height: auto; user-select: none; }
@@ -218,14 +219,14 @@ const copy = {
   .hiw-checks i { display: grid; width: 22px; height: 22px; place-items: center; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: .68rem; font-style: normal; }
   .hiw-journey { background: var(--paper-soft); padding: clamp(2.4rem,3.8vw,4rem) 0 clamp(3rem,4.5vw,4.5rem); }
   .hiw-journey-heading { margin-bottom: clamp(1.4rem,2.5vw,2.2rem); text-align: center; }
-  .hiw-journey-heading h2 { margin: 0; font-family: var(--font-display); font-size: clamp(2.35rem,3.2vw,3.6rem); font-weight: 400; letter-spacing: -.055em; }
+  .hiw-journey-heading h2 { margin: 0; font-family: var(--font-display); font-size: clamp(2.35rem,3.2vw,3.6rem); font-weight: 500; letter-spacing: var(--heading-tracking, -.055em); }
   .hiw-journey-heading i { display: block; width: 68px; height: 3px; margin: 1rem auto 0; background: var(--accent); }
   .hiw-flow { position: relative; display: grid; gap: 1.15rem; }
   .hiw-step { position: relative; display: grid; min-height: 250px; grid-template-columns: minmax(270px,.82fr) minmax(0,1.18fr); align-items: center; gap: clamp(1.5rem,4vw,4rem); overflow: hidden; border: 1px solid var(--border); border-radius: 24px; background: rgba(255,255,255,.48); padding: clamp(1.4rem,2.5vw,2.1rem); box-shadow: 0 12px 30px rgba(17,19,17,.04); }
   .hiw-step .hiw-reference-art { width: min(100%,390px); justify-self: end; }
   .hiw-step-copy { position: relative; z-index: 4; }
   .hiw-step-copy > span { display: block; color: #76b300; font-family: var(--font-display); font-size: clamp(2.6rem,4vw,4.2rem); line-height: .85; }
-  .hiw-step h3 { margin: 1.1rem 0 0; font-family: var(--font-display); font-size: clamp(1.85rem,2.65vw,3rem); font-weight: 400; letter-spacing: -.055em; line-height: 1.04; }
+  .hiw-step h3 { margin: 1.1rem 0 0; font-family: var(--font-display); font-size: clamp(1.85rem,2.65vw,3rem); font-weight: 500; letter-spacing: var(--heading-tracking, -.055em); line-height: 1.4; }
   .hiw-step p { max-width: 420px; margin: .8rem 0 0; color: var(--muted); font-size: .93rem; }
   .step-art { position: relative; z-index: 2; width: 100%; max-height: 245px; stroke: var(--text); stroke-width: 2.15; stroke-linecap: round; stroke-linejoin: round; }
   .phone-screen { fill: var(--dark); }
@@ -259,10 +260,14 @@ const copy = {
   .hiw-privacy .privacy-flow { stroke: rgba(17,19,17,.28); stroke-dasharray: 3 6; }
   .hiw-privacy .privacy-lock-bg { fill: var(--accent); stroke: none; }
   .hiw-privacy .privacy-lock { fill: none; stroke: var(--accent-ink); }
-  .hiw-privacy h2 { margin: 0; font-family: var(--font-display); font-size: clamp(2rem,3vw,3.25rem); font-weight: 400; letter-spacing: -.055em; }
+  .hiw-privacy h2 { margin: 0; font-family: var(--font-display); font-size: clamp(2rem,3vw,3.25rem); font-weight: 500; letter-spacing: var(--heading-tracking, -.055em); }
   .hiw-privacy p { max-width: 610px; margin: .7rem 0 0; color: var(--muted); }
   :global(html.hiw-motion) [data-hiw-reveal]:not(.is-visible) { opacity: 0; filter: blur(5px); transform: translateY(28px); }
   [data-hiw-reveal] { transition: opacity 1900ms cubic-bezier(.2,.65,.25,1) var(--hiw-delay,0ms),transform 1900ms cubic-bezier(.2,.65,.25,1) var(--hiw-delay,0ms),filter 1750ms ease var(--hiw-delay,0ms); }
+  @media (min-width: 761px) and (max-width: 1050px) {
+    .hiw-hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hiw-hero-scene { width: min(100%, 610px); min-height: 0; justify-self: center; }
+  }
   @media(max-width:760px){
     .hiw-hero-grid { grid-template-columns:1fr; }
     .hiw-hero-scene { min-height:330px; }
@@ -275,7 +280,7 @@ const copy = {
     .hiw-step-four .hiw-step-copy { max-width:none; }
   }
   @media(max-width:600px){
-    .hiw-hero { padding-top:3.5rem; }
+    .hiw-hero { padding-top:2rem; }
     .hiw-hero-copy h1,.lang-ja .hiw-hero-copy h1 { font-size:clamp(2.55rem,11vw,3.3rem); }
     .lang-zh .hiw-hero-copy h1 { font-size:43px; }
     .hiw-hero-copy h1 span { white-space: normal; }
@@ -293,6 +298,10 @@ const copy = {
   @media(prefers-reduced-motion:reduce){
     [data-hiw-reveal],.scan-line,.timer-live,.reminder-bell { animation:none!important; transition:none!important; opacity:1!important; filter:none!important; transform:none!important; }
     .timer-live { stroke-dashoffset:0!important; }
+  }
+
+  @media (max-width: 600px) {
+    .lang-en .hiw-hero-copy h1, .lang-ja .hiw-hero-copy h1 { font-size: clamp(1.9rem, 9vw, 2.6rem); }
   }
 </style>
 
