@@ -1,0 +1,12 @@
+---
+import AppDocumentLayout from '../../layouts/AppDocumentLayout.astro';
+import { supportDocuments } from '../../data/support';
+
+export function getStaticPaths() {
+  return ['zh', 'ja'].map(lang => ({ params: { lang }, props: { lang } }));
+}
+interface Props { lang: 'zh' | 'ja' }
+const { lang } = Astro.props as Props;
+---
+
+<AppDocumentLayout documents={supportDocuments} canonical="/support/" defaultLocale={lang} />

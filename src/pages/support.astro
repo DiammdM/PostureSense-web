@@ -1,9 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import SupportPage from '../components/SupportPage.astro';
-import { supportContent } from '../data/support';
+import AppDocumentLayout from '../layouts/AppDocumentLayout.astro';
+import { supportDocuments } from '../data/support';
 ---
 
-<BaseLayout title={supportContent.title} description={supportContent.description} canonical="/support/">
-  <SupportPage />
-</BaseLayout>
+<AppDocumentLayout documents={supportDocuments} canonical="/support/" />

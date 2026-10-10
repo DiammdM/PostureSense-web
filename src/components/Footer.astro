@@ -1,12 +1,17 @@
 ---
-import { navigation, siteConfig } from '../config/site';
+import { siteConfig } from '../config/site';
 import { common, getLocaleFromPath, localizedPath } from '../i18n';
 
 const locale = getLocaleFromPath(Astro.url.pathname);
 const copy = common[locale];
-const localizedNavigation = navigation.filter((item) => item.href !== '/').map((item, index) => ({
-  href: localizedPath(item.href, locale),
-  label: copy.nav[index + 1],
+const footerLabels = {
+  en: ['Privacy policy', 'Support'],
+  zh: ['隐私政策', '支持'],
+  ja: ['プライバシーポリシー', 'サポート'],
+} as const;
+const localizedNavigation = ['/privacy-policy/', '/support/'].map((href, index) => ({
+  href: `${href}?lang=${locale}`,
+  label: footerLabels[locale][index],
 }));
 ---
 
@@ -27,7 +32,7 @@ const localizedNavigation = navigation.filter((item) => item.href !== '/').map((
       <p>{copy.footerLine}</p>
     </div>
     <nav aria-label="Footer navigation">
-      {localizedNavigation.map((item) => <a href={item.href}>{item.label}</a>)}
+      {localizedNavigation.map((item) => <a href={item.href} data-astro-reload>{item.label}</a>)}
     </nav>
     <div class="legal">
       <p>© {new Date().getFullYear()} Posturely</p>

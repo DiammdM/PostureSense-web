@@ -1,0 +1,109 @@
+---
+import DocumentBlocks from '../components/DocumentBlocks.astro';
+import type { AppDocumentTranslations } from '../data/app-document';
+import { siteConfig } from '../config/site';
+import { locales, localeTags, type Locale } from '../i18n';
+
+interface Props {
+  documents: AppDocumentTranslations;
+  canonical: '/support/' | '/privacy-policy/';
+  defaultLocale?: Locale;
+}
+const { documents, canonical, defaultLocale = 'en' } = Astro.props;
+const content = documents[defaultLocale];
+const metadata = Object.fromEntries(locales.map(locale => [locale, {
+  title: documents[locale].title,
+  description: documents[locale].description,
+  tag: localeTags[locale],
+  canonical: new URL(`${canonical}?lang=${locale}`, siteConfig.siteUrl).toString(),
+}]));
+---
+
+<!doctype html>
+<html lang={localeTags[defaultLocale]}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{content.title}</title>
+    <meta name="description" content={content.description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={metadata[defaultLocale].canonical} />
+    {locales.map(locale => <link rel="alternate" hreflang={localeTags[locale]} href={metadata[locale].canonical} />)}
+    <link rel="alternate" hreflang="x-default" href={metadata.en.canonical} />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Posturely" />
+    <meta property="og:title" content={content.title} />
+    <meta property="og:description" content={content.description} />
+    <meta property="og:url" content={metadata[defaultLocale].canonical} />
+    <script is:inline define:vars={{ metadata, defaultLocale }}>
+      const requestedLanguage = new URLSearchParams(window.location.search).get('lang');
+      const documentLanguage = Object.hasOwn(metadata, requestedLanguage) ? requestedLanguage : defaultLocale;
+      const selectedMetadata = metadata[documentLanguage];
+      document.documentElement.dataset.documentLang = documentLanguage;
+      document.documentElement.lang = selectedMetadata.tag;
+      document.title = selectedMetadata.title;
+      document.querySelector('meta[name="description"]').content = selectedMetadata.description;
+      document.querySelector('link[rel="canonical"]').href = selectedMetadata.canonical;
+      for (const field of ['title', 'description', 'url']) {
+        document.querySelector('meta[property="og:' + field + '"]').content =
+          field === 'url' ? selectedMetadata.canonical : selectedMetadata[field];
+      }
+    </script>
+  </head>
+  <body>
+    <main>
+      <article class="app-document" data-rendered-lang={defaultLocale}>
+        <h1>{content.title}</h1>
+        <div class="document-content"><DocumentBlocks blocks={content.blocks} /></div>
+      </article>
+    </main>
+    {locales.filter(locale => locale !== defaultLocale).map(locale => (
+      <template data-document-template={locale} data-title={documents[locale].title}>
+        <DocumentBlocks blocks={documents[locale].blocks} />
+      </template>
+    ))}
+    <script is:inline>
+      const article = document.querySelector('.app-document');
+      const language = document.documentElement.dataset.documentLang;
+      const translation = document.querySelector('template[data-document-template="' + language + '"]');
+      if (translation) {
+        article.querySelector('h1').textContent = translation.dataset.title;
+        article.querySelector('.document-content').replaceChildren(translation.content.cloneNode(true));
+      }
+      article.dataset.renderedLang = language;
+      // Make the support address usable while preserving the original wording.
+      for (const element of article.querySelectorAll('p, li')) {
+        const address = 'diammd@icloud.com';
+        const text = element.textContent;
+        const position = text.indexOf(address);
+        if (position < 0) continue;
+        const link = document.createElement('a');
+        link.href = 'mailto:' + address;
+        link.textContent = address;
+        element.replaceChildren(text.slice(0, position), link, text.slice(position + address.length));
+      }
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif; color: #202420; background: #fff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-width: 320px; font-size: 16px; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+  .app-document { width: min(calc(100% - 48px), 800px); margin: 0 auto; padding: clamp(2rem, 5vw, 4rem) 0 clamp(3rem, 7vw, 6rem); overflow-wrap: anywhere; }
+  h1 { margin: 0 0 1.5rem; font-size: clamp(1.85rem, 4vw, 2.75rem); font-weight: 650; line-height: 1.3; letter-spacing: -.025em; }
+  h2 { margin: 2.5rem 0 1rem; padding-top: 1.5rem; border-top: 1px solid #e5e8e5; font-size: 1.3rem; line-height: 1.5; font-weight: 650; }
+  h3 { margin: 1.8rem 0 .65rem; font-size: 1.08rem; line-height: 1.55; font-weight: 650; }
+  p { margin: 0 0 .85rem; color: #505850; }
+  ul { margin: .75rem 0 1rem; padding-left: 1.4rem; color: #505850; }
+  li + li { margin-top: .35rem; }
+  a { color: #386400; text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid #386400; outline-offset: 4px; }
+  html[data-document-lang="en"] .app-document:not([data-rendered-lang="en"]),
+  html[data-document-lang="zh"] .app-document:not([data-rendered-lang="zh"]),
+  html[data-document-lang="ja"] .app-document:not([data-rendered-lang="ja"]) { visibility: hidden; }
+  @media (max-width: 600px) {
+    .app-document { width: min(calc(100% - 32px), 800px); }
+    h2 { margin-top: 2rem; font-size: 1.2rem; }
+  }
+</style>

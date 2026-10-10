@@ -101,7 +101,9 @@ Replace the placeholder `appStoreUrl` as soon as the real listing URL is availab
 
 Shared English navigation is defined in `src/config/site.ts`. Localized interface copy and route helpers live under `src/i18n/`. Chinese and Japanese page content lives in `src/data/localized.ts`.
 
-The App Store technical support page is available at `/support/`, `/zh/support/`, and `/ja/support/`. All three routes preserve the original Chinese Notion content verbatim, stored in `src/data/support.ts` and rendered by `SupportPage.astro`. The site navigation remains localized; the support article is marked `lang="zh-Hans"`. Use `https://posturely.diammd.com/support/` as the website support URL after deployment.
+The App Store support and privacy policy documents are standalone pages at `/support/?lang=en` and `/privacy-policy/?lang=en`. Use `lang=zh` for Chinese or `lang=ja` for Japanese. All six documents preserve the supplied Notion originals verbatim in `src/data/support.ts` and `src/data/privacy-policy.ts`. They use `AppDocumentLayout.astro` without the marketing site's header, footer, or client router.
+
+Footer navigation contains only Privacy policy and Support and passes the site's current language through the `lang` query parameter. The existing `/privacy/` page remains in the primary navigation. The older `/zh/` and `/ja/` document routes remain accessible with their corresponding default language. On this static site, a small inline script selects the language from the URL and updates the content and metadata before display. Missing or unsupported `lang` values fall back to the route's default (English on the main document routes).
 
 When changing a factual product claim, update all three languages in the same change. Keep descriptions direct and non-medical, and do not add claims about accuracy, outcomes, collected data, ratings, or pricing without verified source information.
 

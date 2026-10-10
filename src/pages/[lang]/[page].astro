@@ -4,23 +4,21 @@ import HowItWorksPage from '../../components/HowItWorksPage.astro';
 import FeaturesPage from '../../components/FeaturesPage.astro';
 import PrivacyPage from '../../components/PrivacyPage.astro';
 import FAQPage from '../../components/FAQPage.astro';
-import SupportPage from '../../components/SupportPage.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { supportContent } from '../../data/support';
 import { localizedContent } from '../../data/localized';
 
-const pageKeys = ['features', 'how-it-works', 'privacy', 'support', 'faq'] as const;
+const pageKeys = ['features', 'how-it-works', 'privacy', 'faq'] as const;
 type PageKey = (typeof pageKeys)[number];
 
 export function getStaticPaths() {
-  const pageKeys = ['features', 'how-it-works', 'privacy', 'support', 'faq'] as const;
+  const pageKeys = ['features', 'how-it-works', 'privacy', 'faq'] as const;
   return ['zh', 'ja'].flatMap((lang) => pageKeys.map((page) => ({ params: { lang, page }, props: { lang, page } })));
 }
 
 interface Props { lang: 'zh' | 'ja'; page: PageKey }
-const { lang, page } = Astro.props;
+const { lang, page } = Astro.props as Props;
 const locale = localizedContent[lang];
-const pageContent = page === 'features' ? locale.features : page === 'how-it-works' ? locale.how : page === 'privacy' ? locale.privacy : page === 'support' ? supportContent : locale.faq;
+const pageContent = page === 'features' ? locale.features : page === 'how-it-works' ? locale.how : page === 'privacy' ? locale.privacy : locale.faq;
 const faqJsonLd = page === 'faq' ? {
   '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: lang === 'zh' ? 'zh-Hans' : 'ja',
   mainEntity: locale.faq.items.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })),
@@ -35,7 +33,5 @@ const faqJsonLd = page === 'faq' ? {
       ? <HowItWorksPage />
       : page === 'privacy'
         ? <PrivacyPage />
-      : page === 'faq'
-          ? <FAQPage items={locale.faq.items} />
-          : <SupportPage />}
+      : <FAQPage items={locale.faq.items} />}
 </BaseLayout>

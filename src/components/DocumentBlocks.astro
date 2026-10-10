@@ -1,0 +1,11 @@
+---
+import type { DocumentBlock } from '../data/app-document';
+interface Props { blocks: readonly DocumentBlock[] }
+const { blocks } = Astro.props;
+---
+
+{blocks.map((block) => block.type === 'list'
+  ? <ul>{block.items.map((item) => <li>{item}</li>)}</ul>
+  : block.type === 'h2' ? <h2>{block.text}</h2>
+  : block.type === 'h3' ? <h3>{block.text}</h3>
+  : <p>{block.text}</p>)}

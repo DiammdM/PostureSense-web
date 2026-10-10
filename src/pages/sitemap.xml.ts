@@ -6,12 +6,12 @@ const baseStaticPaths = [
   '/features/',
   '/how-it-works/',
   '/privacy/',
-  '/support/',
   '/faq/',
 ];
 const staticPaths = [
   ...baseStaticPaths,
   ...['zh', 'ja'].flatMap((locale) => baseStaticPaths.map((path) => `/${locale}${path}`)),
+  ...['/privacy-policy/', '/support/'].flatMap(path => ['en', 'zh', 'ja'].map(lang => `${path}?lang=${lang}`)),
 ];
 
 const escapeXml = (value: string) =>
