@@ -1,44 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SupportPage from '../components/SupportPage.astro';
-import { siteConfig } from '../config/site';
-
-const content = {
-  title: 'Posturely Support and Setup Help',
-  description: 'Get help with Posturely setup, camera permission, phone stand placement, detection quality, subscriptions, and restoring purchases.',
-  eyebrow: 'Support',
-  heading: 'Help every Posturely session run smoothly.',
-  intro: 'Find setup guidance, camera troubleshooting, detection tips, and purchase help for Posturely on iPhone and iPad.',
-  browseTitle: 'Support topics',
-  steps: ['Position your device', 'Check permissions', 'Start monitoring'],
-  items: [
-    ['Getting started', 'Place your iPhone or iPad on a stable desk stand, make sure your upper body is visible, open Posturely, and begin a monitoring session.'],
-    ['Camera permission troubleshooting', 'Open iOS Settings, find Posturely, and confirm that Camera access is enabled. Return to Posturely and start a new session.'],
-    ['Setting up your phone stand', 'Use a stable stand at a side-front angle. Keep the camera near desk height or slightly above, and avoid blocking it with books or a laptop screen.'],
-    ['Improving detection', 'Use even lighting, remain within the camera frame, and adjust sensitivity if small movements cause too many reminders or large changes are missed.'],
-    ['Subscriptions and purchases', 'Manage an active subscription through your Apple ID subscription settings. Purchase availability and terms are shown in the App Store and in the app.'],
-    ['Restore purchases', 'Open the purchase or subscription area in Posturely and choose Restore Purchases while signed in with the Apple ID originally used for the purchase.'],
-  ],
-  contactTitle: 'Need more help?',
-  contactText: 'Include your device model, iOS version, Posturely app version, and a short description of what happened. Do not send camera footage or sensitive personal information.',
-  email: 'Send support email',
-} as const;
+import { supportContent } from '../data/support';
 ---
 
-<BaseLayout title={content.title} description={content.description} canonical="/support/">
-  <SupportPage
-    locale="en"
-    eyebrow={content.eyebrow}
-    heading={content.heading}
-    headingLines={['Help every Posturely', 'session run smoothly']}
-    intro={content.intro}
-    browseTitle={content.browseTitle}
-    steps={content.steps}
-    items={content.items}
-    contactEyebrow="Contact support"
-    contactTitle={content.contactTitle}
-    contactText={content.contactText}
-    emailLabel={content.email}
-    emailHref={`mailto:${siteConfig.supportEmail}?subject=Posturely%20Support`}
-  />
+<BaseLayout title={supportContent.title} description={supportContent.description} canonical="/support/">
+  <SupportPage />
 </BaseLayout>

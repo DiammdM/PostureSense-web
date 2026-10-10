@@ -6,7 +6,7 @@ import PrivacyPage from '../../components/PrivacyPage.astro';
 import FAQPage from '../../components/FAQPage.astro';
 import SupportPage from '../../components/SupportPage.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { siteConfig } from '../../config/site';
+import { supportContent } from '../../data/support';
 import { localizedContent } from '../../data/localized';
 
 const pageKeys = ['features', 'how-it-works', 'privacy', 'support', 'faq'] as const;
@@ -20,10 +20,7 @@ export function getStaticPaths() {
 interface Props { lang: 'zh' | 'ja'; page: PageKey }
 const { lang, page } = Astro.props;
 const locale = localizedContent[lang];
-const labels = lang === 'zh'
-  ? { features: '功能', 'how-it-works': '工作原理', privacy: '隐私政策', support: '支持', faq: '常见问题', home: '首页', context: '重要说明', best: '最佳效果', contact: '联系支持' }
-  : { features: '機能', 'how-it-works': '使い方', privacy: 'プライバシー', support: 'サポート', faq: 'よくある質問', home: 'ホーム', context: '重要な前提', best: 'より良い検出', contact: 'お問い合わせ' };
-const pageContent = page === 'features' ? locale.features : page === 'how-it-works' ? locale.how : page === 'privacy' ? locale.privacy : page === 'support' ? locale.support : locale.faq;
+const pageContent = page === 'features' ? locale.features : page === 'how-it-works' ? locale.how : page === 'privacy' ? locale.privacy : page === 'support' ? supportContent : locale.faq;
 const faqJsonLd = page === 'faq' ? {
   '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: lang === 'zh' ? 'zh-Hans' : 'ja',
   mainEntity: locale.faq.items.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })),
@@ -40,21 +37,5 @@ const faqJsonLd = page === 'faq' ? {
         ? <PrivacyPage />
       : page === 'faq'
           ? <FAQPage items={locale.faq.items} />
-          : <SupportPage
-              locale={lang}
-              eyebrow={locale.support.eyebrow}
-              heading={locale.support.heading}
-              headingLines={lang === 'zh'
-                ? ['让每次', 'Posturely 监督', '更顺畅']
-                : ['よりスムーズな', 'Posturely', 'セッションのために']}
-              intro={locale.support.intro}
-              browseTitle={locale.support.browseTitle}
-              steps={locale.support.steps}
-              items={locale.support.items}
-              contactEyebrow={labels.contact}
-              contactTitle={locale.support.contactTitle}
-              contactText={locale.support.contactText}
-              emailLabel={locale.support.email}
-              emailHref={`mailto:${siteConfig.supportEmail}?subject=Posturely%20Support`}
-            />}
+          : <SupportPage />}
 </BaseLayout>
